@@ -30,9 +30,10 @@ This project goes beyond the basic game logic—it's structured like a real-worl
 
 ## 🛠️ Tech Stack
 
+- **Frontend**: React.js (React + Vite) 
 - **Backend**: Node.js, Express.js  
 - **Database**: MongoDB (with Mongoose)  
-- **Others**: REST APIs, Postman-tested endpoints, modular codebase  
+- **Others**: REST APIs, Postman-tested endpoints  
 
 ---
 

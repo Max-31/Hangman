@@ -17,3 +17,24 @@
   max-width: 400px;
   width: 90%;
 }
+
+/* ─────────────────────────────────────────────
+   📱 Responsive Styles for Leaderboard
+   ───────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .hangAnimContainer{
+    margin-left: 3%;
+  }
+}
+
+@media (max-width: 768px) {
+  .hangAnimContainer{
+    margin-left: 3%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hangAnimContainer{
+    margin-left: 3%;
+  }
+}

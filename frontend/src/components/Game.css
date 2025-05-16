@@ -15,7 +15,7 @@
 /* Genre */
 .genre, .attempts {
   /* margin-bottom: 20px; */
-  margin-bottom: 7px;
+  margin-bottom: 24px;
   font-size: 1.2rem;
   font-weight: 500;
   /* color: #ccc; */
@@ -60,4 +60,66 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* ---------------------- */
+/* RESPONSIVENESS BELOW  */
+/* ---------------------- */
+
+/* Tablets and smaller laptops */
+@media (max-width: 992px) {
+  .gameContainer {
+    margin-left: 8%;
+    padding: 16px;
+  }
+
+  .genre-attempts{
+    gap: 2px;
+  }
+
+  .genre, .attempts {
+    font-size: 1.1rem;
+    padding: 6px 12px;
+  }
+
+  .gameFlex {
+    gap: 32px;
+  }
+
+  .wordDisplay {
+    font-size: 20px;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 576px) {
+  .gameContainer {
+    margin-left: 0;
+    padding: 12px;
+  }
+
+  .genre-attempts {
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .genre, .attempts {
+    width: 90%;
+    font-size: 1rem;
+  }
+
+  .gameFlex {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .hangman, .inputBoxes {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .wordDisplay {
+    font-size: 18px;
+  }
 }

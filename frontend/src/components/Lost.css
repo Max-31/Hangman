@@ -73,3 +73,48 @@
     opacity: 1;
   }
 }
+
+
+/* ────────────────────────────────────────────────
+   📱  Responsive adjustments for tablets & phones
+   (Nothing above is removed; we are only adding)
+   ──────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .lostPopup {
+    width: 90%;
+    max-width: 420px;
+    padding: 1.6rem 1.4rem;
+  }
+
+  .lostPopup h2 {
+    font-size: 1.6rem;
+  }
+
+  .lostPopup p {
+    font-size: 0.95rem;
+  }
+
+  .closeBtn {
+    width: 100%;
+    padding: 12px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .lostPopup {
+    max-width: 340px;
+    padding: 1.4rem 1rem;
+  }
+
+  .lostPopup h2 {
+    font-size: 1.4rem;
+  }
+
+  .lostPopup p {
+    font-size: 0.85rem;
+  }
+
+  .closeBtn {
+    font-size: 0.9rem;
+  }
+}

@@ -45,3 +45,60 @@
 .rules-section li {
   margin-bottom: 8px;
 }
+
+/* ────────────────────────────────────────────────
+   📱 Responsive layout for tablets & phones
+   ──────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .rules-container {
+    /* margin-left: auto;
+    margin-right: auto; */
+    margin: 20px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .rules-container {
+    padding: 20px;
+    margin: 20px 10px;
+    /* margin: 80px; */
+  }
+
+  .rules-title {
+    font-size: 1.6rem;
+  }
+
+  .rules-section h3 {
+    font-size: 1.2rem;
+  }
+
+  .rules-section p,
+  .rules-section ul {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .rules-container {
+    padding: 15px;
+    margin: 15px 10px;
+  }
+
+  .rules-title {
+    font-size: 1.4rem;
+  }
+
+  .rules-section h3 {
+    font-size: 1.1rem;
+  }
+
+  .rules-section p,
+  .rules-section ul {
+    font-size: 0.9rem;
+  }
+
+  .rules-section ul {
+    padding-left: 16px;
+  }
+}

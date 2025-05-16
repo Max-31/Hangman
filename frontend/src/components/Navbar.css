@@ -58,3 +58,71 @@
   background-color: #b91c1c;
   color: #ffffff;
 }
+
+/* 🔧 Responsive for Small Screens */
+@media (max-width: 768px) {
+  .sideNavbar {
+    position: static;
+    width: 100%;
+    height: auto;
+    box-shadow: none;
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    flex-direction: row;
+    align-items: center;
+    background: black;
+    /* justify-content: space-between; */
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    margin-bottom: 0;
+  }
+
+  .menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+    margin-right: 3rem;
+  }
+
+  .navlogo-menu {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    /* gap: 16%; */
+    justify-content: left;
+    /* justify-content: space-between; */
+  }
+
+  .navList {
+    display: none;
+    position: absolute;
+    top: 80px;
+    left: 10px;
+    background-color: #1f1f1f;
+    padding: 1rem;
+    border-radius: 10px;
+    width: 180px;
+    flex-direction: column;
+    z-index: 2000;
+  }
+
+  .navList.active {
+    display: flex;
+  }
+
+  .navList li {
+    margin: 0.8rem 0;
+  }
+}
+
+/* 👀 Hide toggle on big screens */
+@media (min-width: 1024px) {
+  .menu-toggle {
+    display: none;
+  }
+}

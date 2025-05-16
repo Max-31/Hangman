@@ -18,3 +18,30 @@
   color: #f1f1f1; /* light color for text */
   text-transform: uppercase;
 }
+
+/* ─────────────────────────────────────────────
+   📱  Responsive overrides for WordDisplay
+   ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .wordDisplayContainer {
+    padding: 24px;
+    max-width: 600px;
+  }
+
+  .wordText {
+    font-size: 28px;
+    letter-spacing: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wordDisplayContainer {
+    padding: 18px;
+    max-width: 90%;
+  }
+
+  .wordText {
+    font-size: 22px;
+    letter-spacing: 6px;
+  }
+}

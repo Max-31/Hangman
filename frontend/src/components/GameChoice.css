@@ -1,5 +1,6 @@
 .game-choice-container {
   margin-left: 40%;
+  margin-top: 8%;
   width: 40%;
   height: 50vh;
   display: flex;
@@ -15,7 +16,8 @@
 }
 
 .game-button {
-  width: 40%;
+  width: 100%;
+  /* width: 40%; */
   padding: 8%;
   font-size: 1.4rem;
   border: none;
@@ -37,4 +39,56 @@
 .continue-game {
   background-color: #2196f3;
   color: white;
+}
+
+
+/* ─────────────────────────────────────────────
+   📱 Responsive Styles for GameChoice
+   ───────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .game-choice-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+  }
+
+  .game-button {
+    width: 60%;
+    font-size: 1.2rem;
+    font-weight: 560;
+    padding: 10%;
+  }
+}
+
+@media (max-width: 768px) {
+  .game-choice-container {
+    width: 80%;
+    height: auto;
+    padding: 2rem 1rem;
+    gap: 20px;
+  }
+
+  .game-button {
+    width: 80%;
+    padding: 12%;
+    font-size: 1.1rem;
+    font-weight: 560;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-choice-container {
+    width: 90%;
+    height: auto;
+    padding: 1.5rem 1rem;
+    gap: 16px;
+  }
+
+  .game-button {
+    width: 100%;
+    padding: 14%;
+    font-size: 1rem;
+    font-weight: 560;
+  }
 }

@@ -518,3 +518,38 @@
     position: absolute;
   }
   
+
+  /* ─────────────────────────────────────────────
+   📱  Responsive overrides for Hangman sketch
+   ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hangmanContainer {
+    width: 200px;
+    height: 320px;
+  }
+
+  .hangmanTitle {
+    font-size: 24px;
+  }
+
+  .sketch {
+    margin-left: 10%;      /* center better on small screens */
+    height: 260px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hangmanContainer {
+    width: 160px;
+    height: 280px;
+  }
+
+  .hangmanTitle {
+    font-size: 20px;
+  }
+
+  .sketch {
+    margin-left: 0;
+    height: 220px;
+  }
+}

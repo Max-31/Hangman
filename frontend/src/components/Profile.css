@@ -45,6 +45,68 @@
   color: white;
   /* color: #c9d1d9; */
 }
+
+/* ─────────────────────────────────────────────
+   📱 Responsive Styles for Profile Component
+   ───────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .profileContainer {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px;
+    height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .profileContainer {
+    padding: 20px;
+    margin: 20px 10px;
+    height: auto;
+  }
+
+  .profileHeading {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+  }
+
+  .profileBox {
+    padding: 20px 30px;
+  }
+
+  .profileItem {
+    /* flex-direction: column; */
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .label, .value {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profileContainer {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 8px;
+  }
+
+  .profileHeading {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .profileBox {
+    padding: 15px 20px;
+  }
+
+  .label, .value {
+    font-size: 0.95rem;
+  }
+}
+
+
 /* 
 /* DARK MODE STYLES *
 .profileContainer.dark {

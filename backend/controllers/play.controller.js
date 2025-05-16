@@ -277,7 +277,8 @@ const saveLoss= async(isGame)=>{
 }
 
 const checkWord = async(req, res, isGame) => {
-    const { guessedWord } = req.body;
+    // const { guessedWord } = req.body;
+    const guessedWord = req.body.guessedWord?.trim().toLowerCase();
 
     if (isGame.word === guessedWord) {
         const word= isGame.word;
@@ -312,13 +313,16 @@ const checkWord = async(req, res, isGame) => {
 }
 
 const checkLetter= async(req, res, isGame)=>{
-    const {Letter}= req.body;
+    // const {Letter}= req.body;
+    const Letter= req.body.Letter?.trim();
 
     if (Letter.length !== 1) {
         return res.status(400).json({ message: "Invalid letter input." });
     }
 
-    if (isGame.guessLetters.includes(Letter)) {
+    const LetterLow= Letter.toLowerCase();
+
+    if (isGame.guessLetters.includes(LetterLow)) {
         // return res.status(409).json({ message: "You already guessed this letter." });
         const attemptLeft= isGame.remainingAttempts;
         // console.log(attemptLeft);
@@ -328,21 +332,21 @@ const checkLetter= async(req, res, isGame)=>{
             guessSuccess: false,
             alreadyGuessed: true,
             attemptLeft,
-            message: `You already guessed "${Letter}".`
+            message: `You already guessed "${LetterLow}".`
         });
     }
-    isGame.guessLetters.push(Letter);    
+    isGame.guessLetters.push(LetterLow);    
 
-    const isPresent= Letter in isGame.wordMap;
+    const isPresent= LetterLow in isGame.wordMap;
     if(!isPresent){
         return await manageAttempt(res, isGame);
     }
 
-    const posList= isGame.wordPos[Letter];
+    const posList= isGame.wordPos[LetterLow];
     let newHiddenWord = isGame.hiddenWord.split('');  // Convert to array for easy update
 
     for (let i of posList) {
-        newHiddenWord[2 * i] = Letter; // 2*i to handle spaces between underscores
+        newHiddenWord[2 * i] = LetterLow; // 2*i to handle spaces between underscores
     }
 
     isGame.hiddenWord = newHiddenWord.join(''); // Convert back to string

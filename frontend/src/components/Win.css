@@ -69,3 +69,47 @@
     opacity: 1;
   }
 }
+
+
+/* ────────────────────────────────────────────────
+   📱 Responsive adjustments for tablets & phones
+   (Keeps all original styles intact)
+   ──────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .winPopup {
+    padding: 1.8rem 1.4rem;
+    max-width: 90%;
+  }
+
+  .winPopup h2 {
+    font-size: 1.6rem;
+  }
+
+  .winPopup p {
+    font-size: 0.95rem;
+  }
+
+  .closeBtn {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .winPopup {
+    padding: 1.4rem 1rem;
+  }
+
+  .winPopup h2 {
+    font-size: 1.4rem;
+  }
+
+  .winPopup p {
+    font-size: 0.85rem;
+  }
+
+  .closeBtn {
+    font-size: 0.9rem;
+  }
+}

@@ -63,3 +63,35 @@
   font-size: 0.85rem;
   margin-top: -0.5rem;
 }
+
+
+/* ─────────────────────────────────────────────
+   📱  Responsive overrides for Input panel
+   ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .inputContainer {
+    width: 100%;
+    padding: 1.5rem;
+  }
+
+  .inputForm {
+    flex-direction: column;
+  }
+
+  .submitButton {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .inputContainer {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .textInput,
+  .submitButton {
+    font-size: 0.95rem;
+    padding: 8px;
+  }
+}

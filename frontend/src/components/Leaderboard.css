@@ -40,3 +40,65 @@
   text-transform: uppercase;
   letter-spacing: 1px;
 }
+
+
+/* ─────────────────────────────────────────────
+   📱 Responsive Styles for Leaderboard
+   ───────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .leaderboardContainer {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2rem 1rem;
+  }
+
+  .leaderboardHeading {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .leaderboardContainer {
+    padding: 1.5rem 1rem;
+  }
+
+  .leaderboardHeading {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .leaderboardTable {
+    width: 100%;
+    box-shadow: none;
+  }
+
+  .leaderboardRow {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding: 0.4rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .leaderboardHeading {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .leaderboardRow {
+    /* grid-template-columns: 1fr 2fr;
+    grid-row-gap: 8px;*/
+    grid-column-gap: 12px; 
+    padding: 0.75rem;
+    text-align: left;
+  }
+
+  /* .leaderboardRow > div:nth-child(3),
+  .leaderboardRow > div:nth-child(4) {
+    grid-column: span 2;
+  } */
+
+  /* .leaderboardHeader {
+    display: none; /* Optional: hide table header on small screens *
+  } */
+}

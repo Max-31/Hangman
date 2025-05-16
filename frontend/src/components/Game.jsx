@@ -107,71 +107,6 @@ const Game = () => {
     [isOver, isWin]
   )
 
-    // const checkIsGame= async()=>{
-    //   const userName= localStorage.getItem("userName");
-    //   try{
-    //     const response= await axios.post(`${url}/play/newGame`, {userName}); //-->RES= genre, hiddenWord, message
-    //     // const res= response.status;
-    //     // if(res!== 409){
-    //       //render All using NEW Data
-    //       // setGameInfo(response.data);
-    //       // setGameInfo(newGameData);
-    //       const newGameData = response.data;
-    //       setDisplayWord(newGameData.hiddenWord);
-
-    //       if(newGameData.active)
-    //         setAttempt(newGameData.attemptLeft);
-          
-    //       toast.success(newGameData.message);
-
-    //       // setDisplayWord(gameInfo.hiddenWord);
-    //       // toast.success(gameInfo.message);
-    //       // console.log(gameInfo.message);
-    //     // }
-    //     // if(res=== 409){
-    //     //   //render All GameComp with existing data
-    //     //   renderComp(); //newWord in <WordDisplay/>, Attempts in <Hangman/>, ,Input/>
-    //     // }
-    //     // else{
-    //     //   //render All using NEW Data
-    //     //   setGameInfo(response.data);
-    //     //   setDisplayWord(gameInfo.hiddenWord);
-    //     //   toast.success(gameInfo.message);
-    //     //   renderComp();
-    //     // }
-    //   }
-    //   catch(err){
-    //     console.log("Error in checkIsGame()");
-    //     toast.error(`OOPS! ${err.message}`);
-    //   }
-    // }
-
-    // const gameExists= async()=>{
-    //   try{
-    //     const userName= localStorage.getItem("userName");
-
-    //     const response= await axios.get(`${url}/play/session/${userName}`);
-    //     const res= response.data;
-
-    //     if(res.gameSession){
-    //       setGameSession(true);
-    //     }
-    //   }
-    //   catch(err){
-    //     console.log("Error in gameExists()");
-    //     console.log(err);
-    //   }
-    // }
-
-    // useEffect(
-    //   ()=>{
-    //     checkAuth();
-    //     gameExists();
-    //     checkIsGame();
-    //   },
-    //   []
-    // )
-
     const handleWord= async(data)=>{
       try{
         const userName= localStorage.getItem("userName");
@@ -203,7 +138,7 @@ const Game = () => {
             // }
           }
           else{
-            
+            toast.error(`"OOPS! ${data.word}" is NOT the Word!`);
             setAttempt(gameDetails.attemptLeft);
             
             // if(!gameInfo.guessSuccess){
@@ -263,9 +198,11 @@ const Game = () => {
             }
             else{            
               if(!gameDetails.guessSuccess){
+                toast.error(`"OOPS! ${data.letter}" is NOT present!`)
                 setAttempt(gameDetails.attemptLeft);
               }
               else{
+                toast.success(`"${data.letter}" is present!`)
                 setDisplayWord(gameDetails.newHiddenWord);
               }
             }
@@ -312,14 +249,6 @@ const Game = () => {
       <Lost word={realWord}/>
     )
   }    
-
-  // if(gameSession){
-  //   return(
-  //     <GameChoice sessionExists={true}/>
-  //   )
-  // }
-
-  // console.log(attempt);
 
   return (
     <div className="gameContainer">

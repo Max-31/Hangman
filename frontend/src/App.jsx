@@ -13,7 +13,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 //testing
 // import Win from './components/Win'
-import Lost from './components/Lost'
+// import Lost from './components/Lost'
 // import WordDisplay from './components/GameComp/WordDisplay'
 // import Input from './components/GameComp/Input'
 // import Hangman from './components/GameComp/Hangman'
@@ -89,10 +89,10 @@ const router= createBrowserRouter(
       <div>
         <Navbar />
         {/* <Win /> */}
-        <Lost word={"music"}/>
+        {/* <Lost word={"music"}/> */}
         {/* <Input /> */}
         {/* <Hangman attempts={0}/> */}
-        {/* <Deadman /> */}
+        <Deadman />
       </div>
       // <div>
       //   {/* <Win onClose={()=>navigate('/leaderboard')} word={word}/> */}

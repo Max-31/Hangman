@@ -329,8 +329,14 @@ const Game = () => {
         <WordDisplay word={displayWord}/>
       </div>
 
-      <div className='genre'>
-        <h5>GENRE: {genre}</h5>
+      <div className="genre-attempts">
+        <div className='genre'>
+          {/* <h5>GENRE: {genre} | ATTEMPTS LEFT: {attempt}</h5> */}
+          <h5>GENRE: {genre}</h5> 
+        </div>
+        <div className="attempts">
+          <h5>ATTEMPTS LEFT: {attempt}</h5>
+        </div>
       </div>
 
       {/* Flex container for Hangman and Input side by side */}

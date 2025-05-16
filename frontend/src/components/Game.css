@@ -7,8 +7,13 @@
   margin-left: 16%;
 }
 
+.genre-attempts{
+  display: flex;
+  gap: 24px;
+}
+
 /* Genre */
-.genre {
+.genre, .attempts {
   /* margin-bottom: 20px; */
   margin-bottom: 7px;
   font-size: 1.2rem;
@@ -19,6 +24,7 @@
   padding: 8px 16px;
   border-radius: 8px;
   text-align: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
 }
 
 /* Word Display styling */

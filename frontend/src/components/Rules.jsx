@@ -8,7 +8,7 @@ const Rules = () => {
       
       <div className="rules-section">
         <h3>🎯 Objective</h3>
-        <p>Guess the hidden word, one letter at a time (or word), before you run out of attempts.</p>
+        <p>Guess the hidden word, one letter at a time (or word) within 6 attempts.</p>
       </div>
 
       <div className="rules-section">
@@ -18,8 +18,9 @@ const Rules = () => {
           <li>Guess one letter at a time by typing it in the input box.</li>
           <li>If the letter exists in the word, it will be revealed in its position(s).</li>
           <li>Wrong guesses decrease your remaining attempts and draw a part of the hangman.</li>
+          <li>If all attempts are gone i.e., the Entire Hangman is drawn, it's GAME OVER.</li>
           <li>Guess the full word if you're confident - but a wrong guess will cost you an attempt!</li>
-          <li>You win if you guess the entire word before the hangman is completed.</li>
+          <li>You WIN if you guess the entire word before the hangman is completed (i.e. within 6 attempts i.e., Head, 2 Arms, 1 Body and 2 Legs).</li>
         </ul>
       </div>
 

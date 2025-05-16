@@ -1,0 +1,71 @@
+.winOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1002;
+}
+
+.winGlow{
+  box-shadow: 0 0 40px 5px rgb(145, 144, 243);
+  border-radius: 10px;
+}
+
+.winPopup {
+  background-color: #1e1e2f;
+  color: #fff;
+  padding: 2.5rem 3rem;
+  border-radius: 12px;
+  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); */
+  text-align: center;
+  animation: popupFade 0.4s ease;
+  max-width: 400px;
+  width: 90%;
+}
+
+.winPopup h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.winPopup p {
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.scoreMsg span {
+  color: #4ade80; /* Tailwind's green-400 */
+  font-weight: bold;
+}
+
+.closeBtn {
+  background-color: #3b82f6; /* Tailwind's blue-500 */
+  border: none;
+  padding: 0.7rem 1.4rem;
+  color: white;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s;
+}
+
+.closeBtn:hover {
+  background-color: #2563eb; /* blue-600 */
+}
+
+@keyframes popupFade {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

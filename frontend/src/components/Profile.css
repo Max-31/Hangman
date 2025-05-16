@@ -1,0 +1,90 @@
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  height: 100vh;
+  margin-left: 16%;
+  /* background-color: #f9f9f9; */
+  /* background-color: #1f2937; */
+}
+
+.profileHeading {
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+  /* color: white; */
+  color: #00d8ff;
+  text-shadow: 1px 1px 5px #00d8ff88;
+}
+
+.profileBox {
+  /* background-color: #fff; */
+  background-color: #374151;
+  padding: 25px 40px;
+  border-radius: 10px;
+  /* box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 500px;
+}
+
+.profileItem {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
+}
+
+.label {
+  font-weight: bold;
+  /* color: #666; */
+  color: #bfc3cc;
+  /* color: #8b949e; */
+}
+
+.value {
+  color: white;
+  /* color: #c9d1d9; */
+}
+/* 
+/* DARK MODE STYLES *
+.profileContainer.dark {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    height: 100vh;
+    background-color: #0d1117;
+    color: #f0f6fc;
+  }
+  
+  .profileHeading {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: #f0f6fc;
+  }
+  
+  .profileBox {
+    background-color: #161b22;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 500px;
+    transition: 0.3s ease;
+  }
+  
+  .profileItem {
+    display: flex;
+    justify-content: space-between;
+    margin: 18px 0;
+  }
+  
+  .label {
+    font-weight: bold;
+    color: #8b949e;
+  }
+  
+  .value {
+    color: #c9d1d9;
+  }
+   */

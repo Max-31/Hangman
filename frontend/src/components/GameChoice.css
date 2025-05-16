@@ -1,0 +1,40 @@
+.game-choice-container {
+  margin-left: 40%;
+  width: 40%;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  /* background: black; */
+  background-color: #1e1e1e; 
+}
+
+.game-button {
+  width: 40%;
+  padding: 8%;
+  font-size: 1.4rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s;
+}
+
+.game-button:hover {
+  transform: scale(1.08);
+  opacity: 0.95;
+}
+
+.new-game {
+  background-color: #4caf50;
+  color: white;
+}
+
+.continue-game {
+  background-color: #2196f3;
+  color: white;
+}

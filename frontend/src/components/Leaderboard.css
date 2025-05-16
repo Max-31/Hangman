@@ -1,0 +1,42 @@
+.leaderboardContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  /* background-color: #1f1f1f; */
+  min-height: 100vh;
+  color: #fff;
+  margin-left: 16%;
+}
+
+.leaderboardHeading {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #00d8ff;
+  text-shadow: 1px 1px 5px #00d8ff88;
+}
+
+.leaderboardTable {
+  width: 90%;
+  max-width: 800px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.leaderboardRow {
+  display: grid;
+  grid-template-columns: 1fr 3fr 2fr 2fr;
+  padding: 1rem;
+  background-color: #292929;
+  border-bottom: 1px solid #444;
+  align-items: center;
+  text-align: center;
+}
+
+.leaderboardHeader {
+  background-color: #00d8ff33;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}

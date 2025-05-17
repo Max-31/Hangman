@@ -1,0 +1,128 @@
+.sideNavbar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 220px;
+  background-color: #121212;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1rem;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+.logo {
+  color: #ffffff;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.navList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navList li {
+  margin: 1.2rem 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.navList li a,
+.navList li.logoutBtn {
+  text-decoration: none;
+  color: #cccccc;
+  display: block;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  transition: background 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+.navList li.logoutBtn {
+    /* color: #b91c1c; */
+    color: #dc2626;
+}
+
+.navList li a:hover {
+  /* background-color: #1a1a1a; */
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.navList li.logoutBtn:hover {
+  background-color: #b91c1c;
+  color: #ffffff;
+}
+
+/*  Responsive for Small Screens */
+@media (max-width: 768px) {
+  .sideNavbar {
+    position: static;
+    width: 100%;
+    height: auto;
+    box-shadow: none;
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    flex-direction: row;
+    align-items: center;
+    background: black;
+    /* justify-content: space-between; */
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    margin-bottom: 0;
+  }
+
+  .menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+    margin-right: 3rem;
+  }
+
+  .navlogo-menu {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    /* gap: 16%; */
+    justify-content: left;
+    /* justify-content: space-between; */
+  }
+
+  .navList {
+    display: none;
+    position: absolute;
+    top: 80px;
+    left: 10px;
+    background-color: #1f1f1f;
+    padding: 1rem;
+    border-radius: 10px;
+    width: 180px;
+    flex-direction: column;
+    z-index: 2000;
+  }
+
+  .navList.active {
+    display: flex;
+  }
+
+  .navList li {
+    margin: 0.8rem 0;
+  }
+}
+
+/* Hide toggle on big screens */
+@media (min-width: 1024px) {
+  .menu-toggle {
+    display: none;
+  }
+}

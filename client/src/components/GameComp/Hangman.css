@@ -1,0 +1,555 @@
+/* @keyframes drawLineVertical {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes drawLineHorizontal {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes drawHead {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+} */
+
+/* .hangmanContainer {
+  position: relative;
+  width: 200px;
+  height: 300px;
+  margin: auto;
+}
+
+.gallows .base {
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  width: 100px;
+  height: 10px;
+  background: #fff;
+}
+
+.gallows .vertical {
+  position: absolute;
+  bottom: 10px;
+  left: 40px;
+  width: 10px;
+  height: 200px;
+  background: #fff;
+}
+
+.gallows .horizontal {
+  position: absolute;
+  top: 0;
+  left: 40px;
+  width: 80px;
+  height: 10px;
+  background: #fff;
+}
+
+.gallows .rope {
+  position: absolute;
+  top: 10px;
+  left: 110px;
+  width: 2px;
+  height: 30px;
+  background: #fff;
+} */
+
+/* Stickman parts */
+/* .stickman .head {
+  position: absolute;
+  top: 40px;
+  left: 95px;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+}
+
+.stickman .body {
+  position: absolute;
+  top: 70px;
+  left: 109px;
+  width: 2px;
+  height: 45px;
+  background: #fff;
+}
+
+.stickman .rightArm {
+  position: absolute;
+  top: 80px;
+  left: 109px;
+  width: 30px;
+  height: 2px;
+  background: #fff;
+  transform: rotate(30deg);
+  transform-origin: left;
+}
+
+.stickman .leftArm {
+  position: absolute;
+  top: 80px;
+  left: 81px;
+  width: 30px;
+  height: 2px;
+  background: #fff;
+  transform: rotate(-30deg);
+  transform-origin: right;
+}
+
+.stickman .rightLeg {
+  position: absolute;
+  top: 130px;
+  left: 109px;
+  width: 30px;
+  height: 2px;
+  background: #fff;
+  transform: rotate(30deg);
+  transform-origin: left;
+}
+
+.stickman .leftLeg {
+  position: absolute;
+  top: 130px;
+  left: 81px;
+  width: 30px;
+  height: 2px;
+  background: #fff;
+  transform: rotate(-30deg);
+  transform-origin: right;
+} */
+
+/* Stickman parts */
+/* .stickman .head {
+  position: absolute;
+  top: 57px;
+  left: 135px;
+  width: 45px;
+  height: 45px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+}
+
+.stickman .body {
+  position: absolute;
+  top: 102px;
+  left: 457px;
+  width: 3px;
+  height: 90px;
+  background: #fff;
+}
+
+.stickman .rightArm {
+  position: absolute;
+  top: 120px;
+  left: 457px;
+  width: 45px;
+  height: 3px;
+  background: #fff;
+  transform: rotate(30deg);
+  transform-origin: left;
+}
+
+.stickman .leftArm {
+  position: absolute;
+  top: 120px;
+  left: 112px;
+  width: 45px;
+  height: 3px;
+  background: #fff;
+  transform: rotate(-30deg);
+  transform-origin: right;
+}
+
+.stickman .rightLeg {
+  position: absolute;
+  top: 192px;
+  left: 457px;
+  width: 45px;
+  height: 3px;
+  background: #fff;
+  transform: rotate(30deg);
+  transform-origin: left;
+}
+
+.stickman .leftLeg {
+  position: absolute;
+  top: 192px;
+  left: 112px;
+  width: 45px;
+  height: 3px;
+  background: #fff;
+  transform: rotate(-30deg);
+  transform-origin: right;
+} */
+/*   
+
+.hangmanContainer {
+  position: relative;
+  width: 300px;
+  height: 450px;
+  margin: auto;
+}
+
+/* Gallows *
+.gallows .base {
+  position: absolute;
+  bottom: 0;
+  left: 30px;
+  width: 450px;
+  height: 12px;
+  background: #fff;
+}
+
+.gallows .vertical {
+  position: absolute;
+  bottom: 12px;
+  left: 45px;
+  width: 12px;
+  /* height: 300px; *
+  background: #fff;
+}
+
+.gallows .horizontal {
+  position: absolute;
+  top: 0;
+  left: 45px;
+  width: 120px;
+  height: 12px;
+  background: #fff;
+}
+
+.gallows .rope {
+  position: absolute;
+  top: 12px;
+  left: 165px;
+  width: 3px;
+  height: 45px;
+  background: #fff;
+} */
+
+  /* .hangmanContainer {
+    position: relative;
+    width: 200px;
+    height: 300px;
+    margin: auto;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .heading {
+    text-align: center;
+    font-size: 45px;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  
+  .glow {
+    box-shadow: 0 0 20px 5px red;
+    border-radius: 10px;
+  }
+  
+  .sketch{
+    margin-top: 2%;
+  } */
+  
+  /* Gallows */
+  /* .gallows .base {
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    width: 100px;
+    height: 10px;
+    background: #fff;
+  }
+  
+  .gallows .vertical {
+    position: absolute;
+    bottom: 10px;
+    left: 40px;
+    width: 10px;
+    height: 200px;
+    background: #fff;
+  }
+  
+  .gallows .horizontal {
+    position: absolute;
+    top: 0;
+    left: 40px;
+    width: 80px;
+    height: 10px;
+    background: #fff;
+  }
+  
+  .gallows .rope {
+    position: absolute;
+    top: 10px;
+    left: 110px;
+    width: 2px;
+    height: 30px;
+    background: #fff;
+  } */
+  
+ /* Stickman parts */
+/* .stickman .head {
+    position: absolute;
+    top: 40px;
+    left: 93px;
+    width: 34px;
+    height: 34px;
+    border: 4px solid #fff;   /* Thicker head border *
+    border-radius: 50%;
+  }
+  
+  .stickman .body {
+    position: absolute;
+    top: 74px;
+    left: 108px;
+    width: 4px;                /* Thicker body *
+    height: 70px;
+    background: #fff;
+  }
+  
+  .stickman .rightArm {
+    position: absolute;
+    top: 90px;
+    left: 108px;
+    width: 35px;
+    height: 4px;               /* Thicker arm *
+    background: #fff;
+    transform: rotate(30deg);
+    transform-origin: left;
+  }
+  
+  .stickman .leftArm {
+    position: absolute;
+    top: 90px;
+    left: 73px;
+    width: 35px;
+    height: 4px;
+    background: #fff;
+    transform: rotate(-30deg);
+    transform-origin: right;
+  }
+  
+  .stickman .rightLeg {
+    position: absolute;
+    top: 140px;
+    left: 108px;
+    width: 35px;
+    height: 4px;               /* Thicker leg *
+    background: #fff;
+    transform: rotate(30deg);
+    transform-origin: left;
+  }
+  
+  .stickman .leftLeg {
+    position: absolute;
+    top: 140px;
+    left: 73px;
+    width: 35px;
+    height: 4px;
+    background: #fff;
+    transform: rotate(-30deg);
+    transform-origin: right;
+  }
+   */
+
+   .hangmanContainer {
+    position: relative;
+    width: 250px;
+    /* height: 345px; */
+    height: 380px;
+    margin: auto;
+    transition: box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    /* padding-bottom: 8%; */
+  }
+  
+  .glow {
+    box-shadow: 0 0 20px 5px red;
+    border-radius: 10px;
+  }
+  
+  .heading {
+    margin-bottom: 10px;
+  }
+  
+  .hangmanTitle {
+    font-size: 28px;
+    color: #fff;
+    text-align: center;
+  }
+  
+  /* Positioning sketch below heading */
+  .sketch {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    margin-left: 32%;
+  }
+  
+  /* Gallows */
+  .gallows .base {
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    width: 100px;
+    height: 10px;
+    background: #fff;
+  }
+  
+  .gallows .vertical {
+    position: absolute;
+    bottom: 10px;
+    left: 40px;
+    width: 10px;
+    height: 200px;
+    background: #fff;
+  }
+  
+  .gallows .horizontal {
+    position: absolute;
+    top: 0;
+    left: 40px;
+    width: 80px;
+    height: 10px;
+    background: #fff;
+  }
+  
+  .gallows .rope {
+    position: absolute;
+    top: 10px;
+    left: 110px;
+    width: 2px;
+    height: 30px;
+    background: #fff;
+  }
+  
+  /* Stickman Parts */
+  .stickman {
+    position: absolute;
+    top: 2;
+    left: 110px; /* same as .rope's left value */
+  }
+  
+  .stickman .head {
+    /* top: 30px; */
+    top: 39px;
+    left: -22px;
+    width: 45px;
+    height: 45px;
+    border: 4px solid #fff;
+    border-radius: 50%;
+    position: absolute;
+  }
+  
+  .stickman .body {
+    /* top: 75px; */
+    top: 84px;
+    left: -2px;
+    width: 4px;
+    height: 90px;
+    background: #fff;
+    position: absolute;
+  }
+  
+  .stickman .rightArm {
+    /* top: 95px; */
+    top: 104px;
+    left: 0;
+    width: 45px;
+    height: 4px;
+    background: #fff;
+    transform: rotate(45deg);
+    transform-origin: left;
+    position: absolute;
+  }
+  
+  .stickman .leftArm {
+    /* top: 95px; */
+    top: 104px;
+    left: -45px;
+    width: 45px;
+    height: 4px;
+    background: #fff;
+    transform: rotate(-45deg);
+    transform-origin: right;
+    position: absolute;
+  }
+  
+  .stickman .rightLeg {
+    /* top: 165px; */
+    top: 172px;
+    left: 0;
+    width: 45px;
+    height: 4px;
+    background: #fff;
+    transform: rotate(45deg);
+    transform-origin: left;
+    position: absolute;
+  }
+  
+  .stickman .leftLeg {
+    /* top: 165px; */
+    top: 172px;
+    left: -45px;
+    width: 45px;
+    height: 4px;
+    background: #fff;
+    transform: rotate(-45deg);
+    transform-origin: right;
+    position: absolute;
+  }
+  
+
+  /* ─────────────────────────────────────────────
+      Responsive overrides for Hangman sketch
+   ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hangmanContainer {
+    width: 200px;
+    height: 320px;
+  }
+
+  .hangmanTitle {
+    font-size: 24px;
+  }
+
+  .sketch {
+    margin-left: 10%;      /* center better on small screens */
+    height: 260px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hangmanContainer {
+    width: 160px;
+    height: 280px;
+  }
+
+  .hangmanTitle {
+    font-size: 20px;
+  }
+
+  .sketch {
+    margin-left: 0;
+    height: 220px;
+  }
+}

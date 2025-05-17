@@ -1,0 +1,97 @@
+.inputContainer {
+  background-color: #1e1e2f;
+  padding: 2rem;
+  border-radius: 12px;
+  color: white;
+  /* max-width: 400px; */
+  width: 200%;
+  height: max-content;
+  /* margin: auto; */
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+.inputForm {
+  display: flex;
+  /* flex-direction: column; */
+  gap: 0.8rem;
+}
+
+.top{
+    margin-bottom: 1.5rem;
+}
+
+.textInput {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #2b2b3d;
+  color: white;
+  outline: none;
+  transition: 0.3s;
+}
+
+.textInput::placeholder {
+  color: #aaa;
+}
+
+.textInput:focus {
+  background-color: #35354a;
+  border: 1px solid #5f5fff;
+}
+
+.submitButton {
+  padding: 10px;
+  background-color: #5f5fff;
+  color: white;
+  /* font-weight: bold; */
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submitButton:hover {
+  background-color: #4a4ad4;
+}
+
+.errorText {
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  margin-top: -0.5rem;
+}
+
+
+/* ─────────────────────────────────────────────
+      Responsive overrides for Input panel
+   ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .inputContainer {
+    width: 100%;
+    padding: 1.5rem;
+  }
+
+  .inputForm {
+    flex-direction: column;
+  }
+
+  .submitButton {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .inputContainer {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .textInput,
+  .submitButton {
+    font-size: 0.95rem;
+    padding: 8px;
+  }
+}

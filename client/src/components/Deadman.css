@@ -1,0 +1,42 @@
+.deadOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+}
+
+.deadGlow {
+  box-shadow: 0 0 20px 5px red;
+  border-radius: 10px;
+}
+
+.deadPopup {
+  background-color: #020202;
+  /* padding: 2rem 3rem; */
+  border-radius: 12px;
+  text-align: center;
+  /* box-shadow: 0 0 10px rgba(255, 0, 0, 0.3); */
+  animation: popIn 0.4s ease;
+}
+
+.deadPopup h2 {
+  color: #ff4d4f;
+  margin-bottom: 10px;
+}
+
+.deadPopup p {
+  font-size: 16px;
+  color: #c0baba;
+}
+
+.deadGif {
+  width: 240px;     /* Adjust as needed */
+  height: 480px;
+  border-radius: 10px;
+}

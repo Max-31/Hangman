@@ -7,7 +7,6 @@ import GameChoice from './components/GameChoice'
 import Navbar from './components/Navbar'
 import Rules from './components/Rules'
 import Profile from './components/Profile'
-import Deadman from './components/Deadman'
 import { Toaster } from 'react-hot-toast'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
@@ -17,6 +16,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 // import WordDisplay from './components/GameComp/WordDisplay'
 // import Input from './components/GameComp/Input'
 // import Hangman from './components/GameComp/Hangman'
+// import Deadman from './components/Deadman'
 
 const router= createBrowserRouter(
   [
@@ -52,7 +52,7 @@ const router= createBrowserRouter(
       </div>
     },
     {
-      path: '/game',
+      path: '/game', 
       element:
       <div>
         <Navbar />
@@ -83,22 +83,22 @@ const router= createBrowserRouter(
         <Rules/>
       </div>
     },
-    {
-      path:'/testing',
-      element: 
-      <div>
-        <Navbar />
-        {/* <Win /> */}
-        {/* <Lost word={"music"}/> */}
-        {/* <Input /> */}
-        {/* <Hangman attempts={0}/> */}
-        <Deadman />
-      </div>
+    // {
+    //   path:'/testing',
+    //   element: 
+    //   <div>
+    //     <Navbar />
+    //     {/* <Win /> */}
+    //     {/* <Lost word={"music"}/> */}
+    //     {/* <Input /> */}
+    //     {/* <Hangman attempts={0}/> */}
+    //     <Deadman />
+    //   </div>
       // <div>
       //   {/* <Win onClose={()=>navigate('/leaderboard')} word={word}/> */}
       //   <Win onClose={()=>console.log("win")} word="Hello"/>
       // </div>
-    }
+    // }
   ]
 )
 

@@ -34,7 +34,34 @@ This project goes beyond the basic game logic—it's structured like a real-worl
 - **Backend**: Node.js, Express.js  
 - **Database**: MongoDB (with Mongoose)  
 - **Others**: REST APIs, Postman-tested endpoints  
+---
 
+## Setup Instructions
+
+1. Clone the repo
+2. Install dependencies:
+   - `cd backend && npm install`
+   - `cd frontend && npm install`
+3. Setup Environment Variables:
+   - In the `backend/` folder, copy `.env.example` to `.env` and fill in your actual values:
+     ```bash
+     cp .env.example .env
+     ```
+   - Do the same in the `frontend/` folder:
+     ```bash
+     cp .env.example .env
+     ```
+
+Start the project:
+```bash
+# In backend
+npm run server
+
+# In frontend
+npm run dev
+```
 ---
 
 > 🎯 Built to simulate real-world API-driven game logic with scalability, testability, and clean architecture in mind.
+
+---

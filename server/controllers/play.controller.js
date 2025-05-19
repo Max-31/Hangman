@@ -10,7 +10,7 @@ const profile= async(req, res)=>{
     try{
         const userName= req.params.userName;
 
-        const playerData= await Player.findOne({userName}).select("userName wins guessingPower losses");
+        const playerData= await Player.findOne({userName}).select("userName wins guessingPower losses highScore");
         
         return res.status(200).json(playerData);
     }
@@ -34,8 +34,8 @@ const leaderboard= async(req, res)=>{
 }
 
 const newHighScore= (guessPow, isPlayer)=>{
-    if (isPlayer.guessingPower == null) return true;
-    return guessPow > isPlayer.guessingPower;
+    // if (isPlayer.guessingPower == null) return true;
+    return guessPow > isPlayer.highScore;
 }
 
 const newGame= async(req, res)=>{
@@ -227,20 +227,19 @@ const saveWin= async(isGame)=>{
     try{
         const userName= isGame.userName;
         const attemptLeft= isGame.remainingAttempts;
-        const score= attemptLeft*10;
 
         const isPlayer= await Player.findOne({userName});
         
         const newWin= isPlayer.wins + 1;
         isPlayer.wins= newWin;
-        
-        const newScore= isPlayer.score + score;
-        isPlayer.score= newScore; 
 
         const guessPow= attemptLeft + isPlayer.guessingPower;
+        isPlayer.guessingPower= guessPow;
+
         const isHighScore= newHighScore(guessPow, isPlayer);
+
         if(isHighScore){
-            isPlayer.guessingPower= guessPow;
+            isPlayer.highScore= guessPow;
             await isPlayer.save();
             return true;
         }
@@ -284,7 +283,7 @@ const checkWord = async(req, res, isGame) => {
         const word= isGame.word;
         
         const highScore= await saveWin(isGame);
-        console.log(highScore)
+        // console.log(highScore)
         await gameOver(isGame._id);
         if(highScore){
             return res.status(200).json({
@@ -455,34 +454,3 @@ const isSession= async(req, res)=> {
 }
 
 module.exports= {newGame, continueGame, profile, processGuess, leaderboard, endGame, isSession};
-
-// const newHighScore= async(req, res)=>{
-//     try{
-//         const {userName, score}= req.body;
-
-//         const isPlayer= await Player.findOne({userName});
-
-//         if(!isPlayer){
-//             return res.status(404).json({message: "Player NOT Found!"});
-//         }
-        
-//         if(isPlayer.score < score){
-//             //store the current score
-//             isPlayer.score= score;
-//             await isPlayer.save();
-            
-//             return res.status(200).json({
-//                 isHighScore: true,
-//                 message: "YIPPEY! NEW HIGH SCORE!"
-//             })
-//         }
-
-//         return res.status(200).json({
-//             isHighScore: false,
-//             message: "Played Well! But couldn't beat your High Score!"
-//         })
-//     }
-//     catch(err){
-//         return res.status(500).json({message: "Unexpected Error Occured!"});
-//     }
-// }

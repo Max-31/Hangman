@@ -8,7 +8,6 @@ import './Auth.css'
 const url = import.meta.env.VITE_API_URL;
 
 const Auth = () => {
-  // console.log(url);
 
   const location= useLocation();
   const navigate= useNavigate()

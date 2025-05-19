@@ -1,4 +1,3 @@
-import React from 'react';
 import './WordDisplay.css';
 
 const WordDisplay = (props) => {

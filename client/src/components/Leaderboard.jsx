@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import LeaderboardEachPlayer from "./LeaderboardEachPlayer";
 import "./Leaderboard.css";
@@ -36,14 +36,6 @@ const Leaderboard = () => {
           <div>Wins</div>
           <div>Guessing Power</div>
         </div>
-
-        {/* Sample Data */}
-        {/* <div className="leaderboardRow">
-          <div>1</div>
-          <div>Rajarshi</div>
-          <div>15</div>
-          <div>2</div>
-        </div> */}
         
         {
           players.length === 0
@@ -56,8 +48,6 @@ const Leaderboard = () => {
             )
           )
         }
-
-        {/* More rows can come dynamically later */}
       </div>
     </div>
   );

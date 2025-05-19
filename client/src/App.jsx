@@ -94,10 +94,6 @@ const router= createBrowserRouter(
     //     {/* <Hangman attempts={0}/> */}
     //     <Deadman />
     //   </div>
-      // <div>
-      //   {/* <Win onClose={()=>navigate('/leaderboard')} word={word}/> */}
-      //   <Win onClose={()=>console.log("win")} word="Hello"/>
-      // </div>
     // }
   ]
 )

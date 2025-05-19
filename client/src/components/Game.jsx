@@ -17,8 +17,7 @@ const url= import.meta.env.VITE_API_URL;
 const Game = () => {
   const navigate= useNavigate();
   const location= useLocation();
-  // const [gameInfo, setGameInfo]= useState({});
-  // const [gameSession, setGameSession]= useState(false);
+
   const [genre, setGenre]= useState("Loading...");
   const [displayWord, setDisplayWord]= useState('Loading...');
   const [attempt, setAttempt]= useState(6);
@@ -27,9 +26,6 @@ const Game = () => {
   const [highScore, setHighScore] = useState(false);
   const [realWord, setRealWord]= useState(undefined);
   const [showDeadman, setShowDeadman]= useState(false);
-
-  // const [newStart, setNewStart]= useState(true);
-  // const [isLetter, setIsLetter]= useState(true);
   
   const gameInfo= location.state?.gameInfo;
   const isNewGame= location.state?.isNewGame;
@@ -98,7 +94,6 @@ const Game = () => {
           ()=>{
             setShowDeadman(false);
           },
-          // 5000
           1840
         );
         return ()=> clearTimeout(timer);
@@ -118,7 +113,6 @@ const Game = () => {
           }
         )
         const gameDetails= res.data;
-        // setGameInfo(gameDetails);
 
         if(gameDetails.playerFound){
           if(gameDetails.isOver){
@@ -126,24 +120,10 @@ const Game = () => {
             setIsWin(gameDetails.isWin);
             setHighScore(gameDetails.isHighScore);
             setRealWord(gameDetails.word);
-            // if(gameDetails.isWin){        
-            //   return(
-            //     <Win highScore={gameDetails.isHighScore}/>
-            //   )
-            // }
-            // else{
-            //   return(
-            //     <Lost />
-            //   )
-            // }
           }
           else{
-            toast.error(`"OOPS! ${data.word}" is NOT the Word!`);
+            toast.error(`OOPS! "${data.word.toUpperCase()}" is NOT the Word!`);
             setAttempt(gameDetails.attemptLeft);
-            
-            // if(!gameInfo.guessSuccess){
-            //   setAttempt(gameInfo.attemptLeft);
-            // }
           }
         }
         else{
@@ -151,13 +131,9 @@ const Game = () => {
           navigate('/play');
           return;
         }
-
-        // if(isOver){
-        //   return isWin ? <Win highScore={gameDetails.isHighScore}/> : <Lost />;
-        // }        
+       
       }
       catch(err){
-        // toast.error(`OOPS! ${err}`);
         console.log("Error in handleWord(): "+ err);
         const errMsg= err.response?.data?.message || "Issue in Word Checking";
         toast.error("OOPS! " + errMsg);
@@ -176,7 +152,6 @@ const Game = () => {
         )
 
         const gameDetails= res.data;
-        // setGameInfo(gameDetails);
 
         if(gameDetails.playerFound){
           if(res.status === 200){
@@ -185,24 +160,14 @@ const Game = () => {
               setIsWin(gameDetails.isWin);
               setHighScore(gameDetails.isHighScore);
               setRealWord(gameDetails.word);
-              // if(gameDetails.isWin){
-              //   return(
-              //     <Win highScore={gameDetails.isHighScore}/>
-              //   )
-              // }
-              // else{
-              //   return(
-              //     <Lost />
-              //   )
-              // }
             }
             else{            
               if(!gameDetails.guessSuccess){
-                toast.error(`"OOPS! ${data.letter}" is NOT present!`)
+                toast.error(`OOPS! "${data.letter.toUpperCase()}" is NOT Present!`);
                 setAttempt(gameDetails.attemptLeft);
               }
               else{
-                toast.success(`"${data.letter}" is present!`)
+                toast.success(`"${data.letter.toUpperCase()}" is present!`)
                 setDisplayWord(gameDetails.newHiddenWord);
               }
             }
@@ -224,15 +189,13 @@ const Game = () => {
       }
       catch(err){
         // toast.error(`OOPS! ${err}`);
-        console.log("Error in handleWord(): "+ err);
+        console.log("Error in handleLetter(): "+ err);
         const errMsg= err.response?.data?.message || "Issue in Letter Checking";
         toast.error("OOPS! " + errMsg);
       }
     }
 
   if (isOver) {
-    // console.log("HS: "+ highScore)
-    // return isWin ? <Win highScore={highScore} /> : <Lost word={realWord}/>;
     if(isWin){
       return (
         <Win highScore={highScore}/>
@@ -260,7 +223,6 @@ const Game = () => {
 
       <div className="genre-attempts">
         <div className='genre'>
-          {/* <h5>GENRE: {genre} | ATTEMPTS LEFT: {attempt}</h5> */}
           <h5>GENRE: {genre}</h5> 
         </div>
         <div className="attempts">

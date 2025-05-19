@@ -20,7 +20,7 @@ const playerSchema= new mongoose.Schema(
             type: Number,
             default: 0
         },
-        score: {
+        highScore: {
             type: Number,
             default: 0
         },

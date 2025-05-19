@@ -1,7 +1,7 @@
 //i, j
 const word= [
     //fruits- 0
-    ["apple", "banana", "orange", "grape", "mango", "pineapple", "watermelon", "strawberry", "cherry", "papaya", "guava", "lemon", "pear", "peach", "plum", "kiwi", "pomegranate", "coconut", "blueberry", "blackberry", "lychee", "apricot", "fig", "melon"],
+    ["apple", "banana", "orange", "grape", "mango", "pineapple", "watermelon", "strawberry", "cherry", "papaya", "guava", "lemon", "pear", "peach", "plum", "kiwi", "pomegranate", "coconut", "blueberry", "blackberry", "lichi", "apricot", "fig", "melon"],
 
     //animals- 1
     ["dog", "cat", "cow", "goat", "lion", "tiger", "elephant", "monkey", "zebra", "giraffe", "rabbit", "horse", "pig", "sheep", "bear", "deer", "fox", "duck", "hen", "frog", "panda", "kangaroo", "mouse", "snake"],

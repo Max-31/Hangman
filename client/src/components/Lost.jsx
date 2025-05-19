@@ -1,4 +1,3 @@
-import React from 'react'
 import './Lost.css'
 import { useNavigate } from 'react-router-dom'
 
@@ -8,10 +7,7 @@ const Lost = ({ word }) => {
   const showWord= word.toUpperCase();
 
   const onPlayAgain = () => {
-    navigate('/temp'); // Dummy route
-    setTimeout(() => {
-      navigate('/play');
-    }, 100); // Small delay to force remount
+    navigate('/play');
   };
 
   return (

@@ -12,13 +12,14 @@ app.use(cors());
 app.use('/auth', auth);
 app.use('/play', play);
 
-const port= process.env.PORT || 5000;
-const mongoURL= process.env.MONGO_URL;
+const port= process.env.PORT;
+const mongoURI= process.env.MONGO_URI;
+// const mongoURI= process.env.MONGO_URI_LOCAL;
 if (!port) {
     console.error("❌ PORT not found in .env");
 }
-if (!mongoURL) {
-    console.error("❌ MONGO_URL not found in .env");
+if (!mongoURI) {
+    console.error("❌ MONGO_URI not found in .env");
 }
 
 //TEST
@@ -26,7 +27,7 @@ app.get('/', (req, res)=>{
     res.send('Hello');
 })
 
-mongoose.connect(mongoURL)
+mongoose.connect(mongoURI)
 .then(
     ()=>{
         console.log("✅ DB is Connected!");

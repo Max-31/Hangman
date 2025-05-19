@@ -11,13 +11,11 @@ const url= import.meta.env.VITE_API_URL;
 const GameChoice = () => {
   const navigate= useNavigate();
   const [continueBtn, setContinue]= useState(true);
-  // const [gameInfo, setGameInfo]= useState({});
 
   const checkAuth= ()=>{
     try{
       const userName= localStorage.getItem("userName");
       if(!userName){
-        // return <Navigate to="/login"/>
         toast.error("Please login first!");
         navigate("/login");
         return;

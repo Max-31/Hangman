@@ -4,17 +4,17 @@ const playerSchema= new mongoose.Schema(
     {
         // email: {
         //     type: String,
-        //     require: [true, "Please Enter Email!"],
+        //     required: [true, "Please Enter Email!"],
         //     unique: [true, "Email Already Exists!"]
         // },
         userName: {
             type: String,
-            require: [true, "Please Enter UserName!"],
+            required: [true, "Please Enter UserName!"],
             unique: [true, "UserName Already Exists!"]
         },
         password: {
             type: String,
-            require: [true, "Please Enter Password!"]
+            required: [true, "Please Enter Password!"]
         },
         guessingPower: {
             type: Number,

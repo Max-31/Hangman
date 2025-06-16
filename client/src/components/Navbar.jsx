@@ -9,7 +9,7 @@ const Navbar = () => {
   const toggleMenu = () => setMenuOpen(prev => !prev);
 
   const handleLogout = () => {
-    localStorage.removeItem("email");
+    localStorage.removeItem("userName");
     navigate("/signUp");
     return;
   };

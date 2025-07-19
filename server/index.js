@@ -16,10 +16,10 @@ const port= process.env.PORT;
 const mongoURI= process.env.MONGO_URI;
 // const mongoURI= process.env.MONGO_URI_LOCAL;
 if (!port) {
-    console.error("❌ PORT not found in .env");
+    console.error("PORT not found in .env");
 }
 if (!mongoURI) {
-    console.error("❌ MONGO_URI not found in .env");
+    console.error("MONGO_URI not found in .env");
 }
 
 //TEST
@@ -30,15 +30,15 @@ app.get('/', (req, res)=>{
 mongoose.connect(mongoURI)
 .then(
     ()=>{
-        console.log("✅ DB is Connected!");
+        console.log("DB is Connected!");
         app.listen(port, () => {
-            console.log(`🚀 Server is running at http://localhost:${port}`);
+            console.log(`Server is running at http://localhost:${port}`);
         });
     }
 )
 .catch(
     (err)=>{
-        console.error("❌ DB connection failed!");
+        console.error("DB connection failed!");
         console.error(err);
     }
 )

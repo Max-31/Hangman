@@ -2,10 +2,12 @@ import axios from 'axios'
 import './Profile.css'
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const url= import.meta.env.VITE_API_URL
 
 const Profile = () => {
+  const navigate= useNavigate();
   const userName = localStorage.getItem('userName');
   const [guessingPower, setGuessingPower]= useState(0);
   const [wins, setWins]= useState(0);
@@ -29,7 +31,17 @@ const Profile = () => {
     }
   }
 
+  const checkAuth= ()=>{
+    const userName= localStorage.getItem("userName");
+    if(!userName){
+        toast.error("Please login first!");
+        navigate('/login');
+        return;
+    }
+  }
+
   useEffect(()=>{
+    checkAuth();
     loadPlayerData();
   },[])
 

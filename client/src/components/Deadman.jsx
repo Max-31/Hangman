@@ -19,7 +19,7 @@ const Deadman = () => {
       <div className="deadPopup deadGlow">
         {/* Attached gif */}
         <img 
-          //src="/Deadman.gif"  // can keep it in public
+          //src="/Deadman.gif"  // I can keep it in public
           src={deadmanGif}  
           alt="Deadman Animation"
           className="deadGif"

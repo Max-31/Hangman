@@ -1,10 +1,7 @@
 const Player= require('../db/models/player.model');
 const Game= require('../db/models/game.model');
-const Word= require('../words/word');
-// const axios= require('axios');
-// const randomWords= require('random-words');
-// import { generate } from 'random-words';
-// const randomWords = await import('random-words');
+// const Word= require('../words/word');
+const Word= require('../db/models/word.model');
 
 const profile= async(req, res)=>{
     try{
@@ -45,22 +42,20 @@ const newGame= async(req, res)=>{
         const isGame= await Game.findOne({userName});
         
         if(isGame){
-
             gameOver(isGame._id);
-
-            // const attemptLeft= isGame.remainingAttempts;
-            // console.log(attemptLeft);
-            // return res.status(200).json({
-            //     active: true,
-            //     hiddenWord: isGame.hiddenWord,
-            //     attemptLeft,
-            //     message: 'Resuming existing game!'
-            // });
         }
         
-        // const word= await generateWord();
+        // my old func which fetches random word from word.js thus no async await
+        // const objWord= generateWord();
+
+        // Now awaits the async function to fetch a random word from the DB
+        const objWord = await generateWord();
         
-        const objWord= generateWord();
+        // no word could be fetched
+        if (!objWord || !objWord.word) {
+            return res.status(500).json({ message: "Could not generate a word from the database." });
+        }
+
         const word= objWord.word;
         const genre= objWord.genre;
         // console.log(word);
@@ -79,7 +74,7 @@ const newGame= async(req, res)=>{
             wordMap[char]= (wordMap[char] || 0 ) + 1;
         }
 
-    //NOOB WAY:
+    // my NOOB WAY:
         // const hiddenWord= "";
         // for(let i=0; i<word.length; i++){
         //     if(i === word.length - 1){
@@ -90,7 +85,7 @@ const newGame= async(req, res)=>{
         //     }
         // }
 
-    //PRO WAY:
+    // my PRO WAY:
         const hiddenWord = word.split('').map(() => "_").join(" ");
 
         const newGameSession= new Game({
@@ -103,8 +98,7 @@ const newGame= async(req, res)=>{
         });
         await newGameSession.save();
 
-        return res.status(200).json({ 
-            // active: false,
+        return res.status(200).json({
             genre,
             hiddenWord, 
             message: "New Game is ON!"
@@ -145,31 +139,54 @@ const continueGame= async(req, res)=>{
     }
 }
 
-const generateWord= ()=>{
-//method-1: cholena eta properly always
+const generateWord= async()=>{
+// method-1: this one doesn't always run properly acc to my needs
     // const word= randomWords.generate();
 
-//method-2: onk tough words dey 
+// method-2: words are a lot Tough 
     // const res= await axios.get('https://random-word-api.herokuapp.com/word');
     // const word= res.data[0];
     // return word.toLowerCase();
 
-//method-3: manual list:
-    //choose i and j randomly
-    const i = Math.floor(Math.random() * Word.length);        
-    const j = Math.floor(Math.random() * Word[i].length);     
+// method-3: manual list:
+    // // choose i and j randomly
+    // const i = Math.floor(Math.random() * Word.length);        
+    // const j = Math.floor(Math.random() * Word[i].length);     
     
-    //word= Word[i,j]
-    //return word.toLowerCase();
-    const word = Word[i][j].toLowerCase();
-    // console.log(word);
-    
-    let genre= "Fruit";
-    if(i === 1) genre= "Animal";
-    else if(i === 2) genre= "Place";
-    else if(i === 3) genre= "Common Objects & Actions";
+    // //word= Word[i,j]
+    // //return word.toLowerCase();
+    // const word = Word[i][j].toLowerCase();
 
-    const objWord= {word, genre};
+    // // console.log(word);
+    
+    // let genre= "Fruit";
+    // if(i === 1) genre= "Animal";
+    // else if(i === 2) genre= "Place";
+    // else if(i === 3) genre= "Common Objects & Actions";
+
+// method-4: get it From DB: thus here i can update the Word list from contributors as well
+    const count= await Word.countDocuments();
+
+    if(count == 0) {
+        console.log("Word Document is Empty!");
+        return null;
+    }
+
+    // generate random index for me to pic from DB
+    const random= Math.floor(Math.random() * count);
+
+    //picking from DB-> Fetch one random doc by skipping a random no. of docs
+    const randWordDoc= await Word.findOne().skip(random); 
+
+    if (!randWordDoc) {
+        console.error("Failed to fetch a random word.");
+        return null;
+    }
+
+    const objWord= {
+        word: randWordDoc.word, 
+        genre: randWordDoc.genre
+    };
 
     return objWord;
 }

@@ -8,8 +8,15 @@ const Navbar = () => {
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
 
+  const handleNav= (path)=>{
+    setMenuOpen(false);
+    // console.log(path);
+    navigate(path);
+  }
+
   const handleLogout = () => {
     localStorage.removeItem("userName");
+    setMenuOpen(false);
     navigate("/signUp");
     return;
   };
@@ -25,17 +32,21 @@ const Navbar = () => {
       </div>
 
       <ul className={`navList ${menuOpen ? 'active' : ''}`}>
-        <li>
-          <Link to="/play">Play</Link>
+        <li onClick={()=> handleNav('/play')}>
+          {/* <Link to="/play">Play</Link> */}
+          <div className="navOpt playOpt">Play</div>
         </li>
-        <li>
-          <Link to="/leaderboard">Leaderboard</Link>
+        <li onClick={()=> handleNav('/leaderboard')}>
+          {/* <Link to="/leaderboard">Leaderboard</Link> */}
+          <div className="navOpt leaderboardOpt">Leaderboard</div>
         </li>
-        <li>
-          <Link to="/profile">Profile</Link>
+        <li onClick={()=> handleNav('/profile')}>
+          {/* <Link to="/profile">Profile</Link> */}
+          <div className="navOpt profileOpt">Profile</div>
         </li>
-        <li>
-          <Link to="/rules">Rules & Tips</Link>
+        <li onClick={()=> handleNav('/rules')}>
+          {/* <Link to="/rules">Rules & Tips</Link> */}
+          <div className="navOpt rulesTipsOpt">Rules & Tips</div>
         </li>
         <li onClick={handleLogout} className="logoutBtn">
           LogOut

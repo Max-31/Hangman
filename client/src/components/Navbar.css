@@ -33,7 +33,8 @@
 }
 
 .navList li a,
-.navList li.logoutBtn {
+.navList li.logoutBtn,
+.navList .navOpt {
   text-decoration: none;
   color: #cccccc;
   display: block;
@@ -48,7 +49,7 @@
     color: #dc2626;
 }
 
-.navList li a:hover {
+.navList li a:hover, .navList .navOpt:hover {
   /* background-color: #1a1a1a; */
   background-color: #2563eb;
   color: #ffffff;

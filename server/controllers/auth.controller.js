@@ -24,7 +24,7 @@ const signUp= async(req, res)=>{
         });
         await newPlayer.save();
 
-        res.status(200).json({
+        res.status(201).json({
             playerExists: false,
             message: "Welcome to Hangman!"
         });
@@ -52,10 +52,21 @@ const login= async(req, res)=>{
             return res.status(401).json({message: "WRONG Password!"});
         }
 
-        res.status(200).json({message: "Login Successfull!"});
+        // res.status(200).json({message: "Login Successfull!"});
+
+        // MODIFICATION: Return the user info! 
+        // The frontend needs this '_id' to create games later.
+        res.status(200).json({
+            message: "Login Successful!",
+            user: {
+                _id: isPlayer._id,
+                userName: isPlayer.userName
+            }
+        });
     }
     catch(err){
         console.log("Login Error");
+        console.log(err);
         res.status(500).json({message: 'Unexpected Error Occured!'});
     }
 }

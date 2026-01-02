@@ -3,143 +3,48 @@ const Game= require('../db/models/game.model');
 // const Word= require('../words/word');
 const Word= require('../db/models/word.model');
 
-const profile= async(req, res)=>{
-    try{
-        const userName= req.params.userName;
-
-        const playerData= await Player.findOne({userName}).select("userName wins guessingPower losses highScore");
-        
-        return res.status(200).json(playerData);
-    }
-    catch(err){
-        return res.status(500).json({message: "Unable to get Players!"});
-    }
-}
-
-const leaderboard= async(req, res)=>{
-    try{
-        const allPlayers= await Player.find({})
-                                      .sort({guessingPower: -1, updatedAt: -1})
-                                      .limit(10)
-                                      .select("userName wins guessingPower");
-        
-        return res.status(200).json(allPlayers);
-    }
-    catch(err){
-        return res.status(500).json({message: "Unable to get Players!"});
-    }
-}
-
-const newHighScore= (guessPow, isPlayer)=>{
-    // if (isPlayer.guessingPower == null) return true;
-    return guessPow > isPlayer.highScore;
-}
-
-const newGame= async(req, res)=>{
-    try{
-        const {userName}= req.body;
-        
-        const isGame= await Game.findOne({userName});
-        
-        if(isGame){
-            gameOver(isGame._id);
-        }
-        
-        // my old func which fetches random word from word.js thus no async await
-        // const objWord= generateWord();
-
-        // Now awaits the async function to fetch a random word from the DB
-        const objWord = await generateWord();
-        
-        // no word could be fetched
-        if (!objWord || !objWord.word) {
-            return res.status(500).json({ message: "Could not generate a word from the database." });
-        }
-
-        const word= objWord.word;
-        const genre= objWord.genre;
-        // console.log(word);
-
-        const wordMap= {};
-        const wordPos= {};
-        for(let i=0; i<word.length; i++){
-            const char= word[i];
-
-            if(!wordPos[char]){
-                wordPos[char]= [];
-            }
-
-            wordPos[char].push(i);
-
-            wordMap[char]= (wordMap[char] || 0 ) + 1;
-        }
-
-    // my NOOB WAY:
-        // const hiddenWord= "";
-        // for(let i=0; i<word.length; i++){
-        //     if(i === word.length - 1){
-        //         hiddenWord+= "_"
-        //     }
-        //     else{
-        //         hiddenWord+= "_ ";
-        //     }
-        // }
-
-    // my PRO WAY:
-        const hiddenWord = word.split('').map(() => "_").join(" ");
-
-        const newGameSession= new Game({
-            userName,
-            word, 
-            wordMap, 
-            wordPos,
-            hiddenWord,
-            genre
-        });
-        await newGameSession.save();
-
-        return res.status(200).json({
-            genre,
-            hiddenWord, 
-            message: "New Game is ON!"
-        });
-    }
-    catch(err){
-        console.log("Error in New Game");
-        return res.status(500).json({message: "Unexpected Error Occured"});
-    }
-}
-
-const continueGame= async(req, res)=>{
-    try{
-        const {userName}= req.body;
-        
-        const isGame= await Game.findOne({userName});
-        
-        if(isGame){
-            const attemptLeft= isGame.remainingAttempts;
-            const genre= isGame.genre;
-            // console.log(attemptLeft);
-            return res.status(200).json({
-                existingGame: true,
-                genre,
-                hiddenWord: isGame.hiddenWord,
-                attemptLeft,
-                message: 'Resuming existing game!'
-            });
-        }
-        return res.status(400).json({
-            existingGame: false,
-            message: "No Game to Continue. Start a New Game!"
-        })
-    }
-    catch(err){
-        console.log("Error in Continue Game");
-        return res.status(500).json({message: "Unexpected Error Occured"});
-    }
-}
-
+//helper
 const generateWord= async()=>{
+    // method-4: get it From DB: thus here i can update the Word list from contributor as well
+
+    // // generate random index for me to pic from DB
+    // const random= Math.floor(Math.random() * count);
+    // //picking from DB-> Fetch one random doc by skipping a random no. of docs
+    // const randWordDoc= await Word.findOne().skip(random).populate('genre contributor'); 
+    // ------------------- below is the Alternate BETTER version of this -----------------
+
+    const wordCollection = Word.collection;
+
+    // I am using the aggregation pipeline with $sample for efficiency
+    const randomDocs = await wordCollection.aggregate([
+        { $sample: { size: 1 } }
+    ]).toArray();
+    
+    if (randomDocs.length === 0) {
+        console.log("Word collection is empty!");
+        return null;
+    }
+    
+    // I am Populating the randomly selected document with genre, contributor for the UI return
+    const randWordDoc = await Word.populate(randomDocs[0], { path: 'genre contributor' });
+
+    if (!randWordDoc) {
+        console.error("Failed to fetch a random word.");
+        return null;
+    }
+
+    // I am Returning the whole doc so we have _id and word string
+    return randWordDoc;
+
+    // const objWord= {
+    //     word: randWordDoc.word,
+    //     genre: randWordDoc.genre?.name,
+    //     contributor: randWordDoc.contributor?.userName || "Computer"
+    // }
+    // return objWord;
+
+    //-------------------------------------------------------------------
+
 // method-1: this one doesn't always run properly acc to my needs
     // const word= randomWords.generate();
 
@@ -163,32 +68,160 @@ const generateWord= async()=>{
     // if(i === 1) genre= "Animal";
     // else if(i === 2) genre= "Place";
     // else if(i === 3) genre= "Common Objects & Actions";
+}
 
-// method-4: get it From DB: thus here i can update the Word list from contributors as well
-    const count= await Word.countDocuments();
+const newHighScore= (guessPow, isPlayer)=>{
+    // if (isPlayer.guessingPower == null) return true;
+    return guessPow > isPlayer.highScore;
+}
 
-    if(count == 0) {
-        console.log("Word Document is Empty!");
-        return null;
+//-------------------------------controllers-------------------------------
+const profile= async(req, res)=>{
+    try{
+        const {userID}= req.params;
+
+        // const playerData= await Player.findOne({userName}).select("userName wins guessingPower losses highScore");
+        // now userName from Frontend sends player ID
+        const playerData = await Player.findById(userID).select("userName wins guessingPower losses highScore");
+        
+        return res.status(200).json(playerData);
     }
-
-    // generate random index for me to pic from DB
-    const random= Math.floor(Math.random() * count);
-
-    //picking from DB-> Fetch one random doc by skipping a random no. of docs
-    const randWordDoc= await Word.findOne().skip(random); 
-
-    if (!randWordDoc) {
-        console.error("Failed to fetch a random word.");
-        return null;
+    catch(err){
+        return res.status(500).json({message: "Unable to get Player!"});
     }
+}
 
-    const objWord= {
-        word: randWordDoc.word, 
-        genre: randWordDoc.genre
-    };
+const leaderboard= async(req, res)=>{
+    try{
+        const allPlayers= await Player.find({})
+                                      .sort({guessingPower: -1, updatedAt: -1})
+                                      .limit(10)
+                                      .select("userName wins guessingPower");
+        
+        return res.status(200).json(allPlayers);
+    }
+    catch(err){
+        return res.status(500).json({message: "Unable to get Players!"});
+    }
+}
 
-    return objWord;
+const newGame= async(req, res)=>{
+    try{
+       const {userID}= req.body;
+        
+        // const isGame= await Game.findOne({userName: userID});
+        const isGame= await Game.findOne({userID});
+        
+        if(isGame){
+            gameOver(isGame._id);
+        }
+        
+        // my old func which fetches random word from word.js thus no async await
+        // const objWord= generateWord();
+
+        // Now awaits the async function to fetch a random word from the DB
+        const randWordDoc = await generateWord();
+        
+        // no word could be fetched
+        if (!randWordDoc) {
+            return res.status(500).json({ message: "Could not generate a word from the database." });
+        }
+
+        const word= randWordDoc.word.toLowerCase();
+        const genre= randWordDoc.genre?.name || "unknown-genre";
+        const contributor= randWordDoc.contributor?.userName || "Computer";
+        // console.log(word);
+
+    //now I pre-calculate and store it in word.model.js
+        // const wordMap= {};
+        // const wordPos= {};
+        // for(let i=0; i<word.length; i++){
+        //     const char= word[i];
+
+        //     if(!wordPos[char]){
+        //         wordPos[char]= [];
+        //     }
+
+        //     wordPos[char].push(i);
+
+        //     wordMap[char]= (wordMap[char] || 0 ) + 1;
+        // }
+
+    // my NOOB WAY:
+        // const hiddenWord= "";
+        // for(let i=0; i<word.length; i++){
+        //     if(i === word.length - 1){
+        //         hiddenWord+= "_"
+        //     }
+        //     else{
+        //         hiddenWord+= "_ ";
+        //     }
+        // }
+
+    // my PRO WAY:
+        const hiddenWord = word.split('').map(() => "_").join(" ");
+
+        const newGameSession= new Game({
+            userID, //player ID
+            word: randWordDoc._id, //word ID
+            hiddenWord,
+            guessedLetters: [], 
+            guessedWords: []
+
+        });
+        await newGameSession.save();
+        //now we get these by .populater()
+            // wordMap, 
+            // wordPos,
+            // genre,
+            // contributor
+
+        return res.status(200).json({
+            genre,
+            hiddenWord, 
+            contributor,
+            message: "New Game is ON!"
+        });
+    }
+    catch(err){
+        console.log("Error in New Game");
+        return res.status(500).json({message: "Unexpected Error Occured"});
+    }
+}
+
+const continueGame= async(req, res)=>{
+    try{
+        const {userID}= req.body;
+        
+        // const isGame= await Game.findOne({userName: userID}).populate({
+        const isGame= await Game.findOne({userID}).populate({
+            path: 'word',
+            populate: {path: 'genre contributor'}
+        });
+        
+        if(isGame){
+            // const attemptLeft= isGame.remainingAttempts;
+            // const genre= isGame.genre;
+            // const contributor= isGame.contributor;
+            // console.log(attemptLeft);
+            return res.status(200).json({
+                existingGame: true,
+                genre: isGame.word.genre?.name || "unknown-genre",
+                contributor: isGame.word.contributor?.userName || "Computer",
+                hiddenWord: isGame.hiddenWord,
+                attemptLeft: isGame.remainingAttempts,
+                message: 'Resuming existing game!'
+            });
+        }
+        return res.status(400).json({
+            existingGame: false,
+            message: "No Game to Continue. Start a New Game!"
+        })
+    }
+    catch(err){
+        console.log("Error in Continue Game");
+        return res.status(500).json({message: "Unexpected Error Occured"});
+    }
 }
 
 const isRemAttempts= (remainingAttempts)=>{
@@ -206,21 +239,21 @@ const gameOver= async(id)=>{
     }
 }
 
-const manageAttempt = async (res, isGame) => {
+const manageAttempt = async (res, isGame, actualWord) => {
     try{
         const remAttempts = isGame.remainingAttempts - 1;
     
         if (!isRemAttempts(remAttempts)) {
-            const word= isGame.word;
+            // const word= isGame.word;
     
             await saveLoss(isGame);
-    
-            gameOver(isGame._id);
+            await gameOver(isGame._id);
+
             return res.status(200).json({
                 playerFound: true,
                 isOver: true,
                 isWin: false,
-                word,
+                word: actualWord,
                 message: "YOU LOST! GAME OVER."
             });
         }
@@ -242,10 +275,10 @@ const manageAttempt = async (res, isGame) => {
 
 const saveWin= async(isGame)=>{
     try{
-        const userName= isGame.userName;
+        const userID= isGame.userID;
         const attemptLeft= isGame.remainingAttempts;
 
-        const isPlayer= await Player.findOne({userName});
+        const isPlayer= await Player.findById(userID);
         
         const newWin= isPlayer.wins + 1;
         isPlayer.wins= newWin;
@@ -272,9 +305,9 @@ const saveWin= async(isGame)=>{
 
 const saveLoss= async(isGame)=>{
     try{
-        const userName= isGame.userName;
+        const userID= isGame.userID;
 
-        const isPlayer= await Player.findOne({userName});
+        const isPlayer= await Player.findById(userID);
         
         const newLosses= isPlayer.losses + 1;
         isPlayer.losses= newLosses;
@@ -292,43 +325,56 @@ const saveLoss= async(isGame)=>{
     }
 }
 
-const checkWord = async(req, res, isGame) => {
+const checkWord = async(req, res, isGame, actualWord) => {
     // const { guessedWord } = req.body;
     const guessedWord = req.body.guessedWord?.trim().toLowerCase();
 
-    if (isGame.word === guessedWord) {
-        const word= isGame.word;
+    if (actualWord === guessedWord) {
+        // const word= isGame.word;
         
         const highScore= await saveWin(isGame);
         // console.log(highScore)
         await gameOver(isGame._id);
-        if(highScore){
-            return res.status(200).json({
-                playerFound: true,
-                isOver: true,
-                isWin: true,
-                isHighScore: true,
-                message: "You guessed all the letters correctly!",
-                word,
-                guessSuccess: true
-            });
-        }
 
         return res.status(200).json({
             playerFound: true,
             isOver: true,
             isWin: true,
-            isHighScore: false,
+            isHighScore: highScore,
             message: "You guessed all the letters correctly!",
-            word,
+            word: actualWord,
             guessSuccess: true
         });
+
+        // if(highScore){
+        //     return res.status(200).json({
+        //         playerFound: true,
+        //         isOver: true,
+        //         isWin: true,
+        //         isHighScore: true,
+        //         message: "You guessed all the letters correctly!",
+        //         word,
+        //         guessSuccess: true
+        //     });
+        // }
+
     } else {
-        return await manageAttempt(res, isGame);
+        if(isGame.guessedWords.includes(guessedWord)){
+            return res.status(200).json({
+                playerFound: true,
+                isOver: false,
+                guessSuccess: false,
+                alreadyGuessed: true,
+                attemptLeft: isGame.remainingAttempts,
+                message: `You have already guessed "${guessedWord.toUpperCase()}".`
+            });
+        }
+        isGame.guessedWords.push(guessedWord);
+        return await manageAttempt(res, isGame, actualWord);
     }
 }
 
-const checkLetter= async(req, res, isGame)=>{
+const checkLetter= async(req, res, isGame, actualWord)=>{
     // const {Letter}= req.body;
     const Letter= req.body.Letter?.trim();
 
@@ -338,27 +384,31 @@ const checkLetter= async(req, res, isGame)=>{
 
     const LetterLow= Letter.toLowerCase();
 
-    if (isGame.guessLetters.includes(LetterLow)) {
+    if (isGame.guessedLetters.includes(LetterLow)) {
         // return res.status(409).json({ message: "You already guessed this letter." });
-        const attemptLeft= isGame.remainingAttempts;
+        // const attemptLeft= isGame.remainingAttempts;
         // console.log(attemptLeft);
         return res.status(200).json({
             playerFound: true,
             isOver: false,
             guessSuccess: false,
             alreadyGuessed: true,
-            attemptLeft,
-            message: `You already guessed "${LetterLow}".`
+            attemptLeft: isGame.remainingAttempts,
+            message: `You have already guessed "${LetterLow.toUpperCase()}".`
         });
     }
-    isGame.guessLetters.push(LetterLow);    
+    isGame.guessedLetters.push(LetterLow);    
 
-    const isPresent= LetterLow in isGame.wordMap;
-    if(!isPresent){
-        return await manageAttempt(res, isGame);
+    const wordData = isGame.word;
+    if(!wordData.wordMap || !wordData.wordMap[LetterLow]){
+        return await manageAttempt(res, isGame, actualWord);
     }
+    // const isPresent= LetterLow in isGame.wordMap;
+    // if(!isPresent){
+    //     return await manageAttempt(res, isGame, actualWord);
+    // }
 
-    const posList= isGame.wordPos[LetterLow];
+    const posList= wordData.wordPos[LetterLow];
     let newHiddenWord = isGame.hiddenWord.split('');  // Convert to array for easy update
 
     for (let i of posList) {
@@ -370,28 +420,28 @@ const checkLetter= async(req, res, isGame)=>{
 
     //if all letters guessed (remove spaces for comparison)
     const cleanedHidden = isGame.hiddenWord.replace(/\s/g, '');
-    if (cleanedHidden === isGame.word) {
+    if (cleanedHidden === actualWord) {
         await gameOver(isGame._id);
 
         const highScore= await saveWin(isGame);
-        if(highScore){
-            return res.status(200).json({
-                playerFound: true,
-                isOver: true,
-                isWin: true,
-                isHighScore: true,
-                word: isGame.hiddenWord,
-                message: "You guessed all the letters correctly!"
-            });
-        }
+        // if(highScore){
+        //     return res.status(200).json({
+        //         playerFound: true,
+        //         isOver: true,
+        //         isWin: true,
+        //         isHighScore: highScore,
+        //         word: isGame.hiddenWord,
+        //         message: "You guessed all the letters correctly!"
+        //     });
+        // }
 
         return res.status(200).json({
             playerFound: true,
             isOver: true,
             isWin: true,
-            isHighScore: false,
+            isHighScore: highScore,
             word: isGame.hiddenWord,
-            message: "You guessed all the letters correctly!"
+            message: "You have guessed all the letters correctly!"
         });
     }
 
@@ -405,9 +455,11 @@ const checkLetter= async(req, res, isGame)=>{
 
 const processGuess= async(req, res)=>{
     try{
-        const {userName, isWord}= req.body;
+        const {userID, isWord}= req.body;
+        // const userID = req.body.userName;
+        // const isWord = req.body.isWord;
 
-        const isGame= await Game.findOne({userName});
+        const isGame= await Game.findOne({userID}).populate('word');
 
         if(!isGame){
             return res.status(404).json({
@@ -416,11 +468,12 @@ const processGuess= async(req, res)=>{
             })
         }
 
+        const actualWord = isGame.word.word.toLowerCase();
         if(isWord){
-            return await checkWord(req, res, isGame);
+            return await checkWord(req, res, isGame, actualWord);
         }
         else{
-            return await checkLetter(req, res, isGame);
+            return await checkLetter(req, res, isGame, actualWord);
         }
     }
     catch(err){
@@ -431,8 +484,8 @@ const processGuess= async(req, res)=>{
 
 const endGame= async(req,res) => {
     try{
-        const {userName}= req.body;
-        const isGame= await Game.findOne({userName});
+        const {userID}= req.body;
+        const isGame= await Game.findOne({userID});
         if(!isGame){
             return res.status(404).json({message: "No Active Game session found!"});
         }
@@ -448,9 +501,11 @@ const endGame= async(req,res) => {
 
 const isSession= async(req, res)=> {
     try{
-        const {userName}= req.params;
+        const {userID}= req.params;
 
-        const isGame= await Game.findOne({userName});
+        // const isGame= await Game.findOne({userName});
+        //now userName = player ID
+        const isGame = await Game.findOne({userID})
 
         if(isGame){
             return res.status(200).json({

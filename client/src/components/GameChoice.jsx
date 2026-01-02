@@ -10,12 +10,14 @@ const url= import.meta.env.VITE_API_URL;
 
 const GameChoice = () => {
   const navigate= useNavigate();
-  const [continueBtn, setContinue]= useState(true);
+  // const [continueBtn, setContinue]= useState(true); -> I have seen that the button keeps flickering
+  const [continueBtn, setContinue]= useState(false); // No more Flickering
+
+  const userID= localStorage.getItem("userID");
 
   const checkAuth= ()=>{
     try{
-      const userName= localStorage.getItem("userName");
-      if(!userName){
+      if(!userID){
         toast.error("Please login first!");
         navigate("/login");
         return;
@@ -31,9 +33,9 @@ const GameChoice = () => {
 
   const checkGameSession= async()=>{
     try{
-      const userName= localStorage.getItem("userName");
+      if(!userID) return;
 
-      const response= await axios.get(`${url}/play/session/${userName}`);
+      const response= await axios.get(`${url}/play/session/${userID}`);
       const res= response.data;
 
       setContinue(res.gameSession);
@@ -56,9 +58,8 @@ const GameChoice = () => {
 
   const loadNewGame= async()=>{
     try{
-      const userName= localStorage.getItem("userName");
 
-      const response= await axios.post(`${url}/play/newGame`, {userName});
+      const response= await axios.post(`${url}/play/newGame`, {userID});
       const res= response.data;
 
       navigate('/game', {
@@ -76,9 +77,7 @@ const GameChoice = () => {
 
   const loadContinue= async()=>{
     try{
-      const userName= localStorage.getItem("userName");
-
-      const response= await axios.post(`${url}/play/continue`, {userName});
+      const response= await axios.post(`${url}/play/continue`, {userID});
       const res= response.data;
 
       navigate('/game', {

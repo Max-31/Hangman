@@ -8,7 +8,9 @@ const url= import.meta.env.VITE_API_URL
 
 const Profile = () => {
   const navigate= useNavigate();
-  const userName = localStorage.getItem('userName');
+  // const userName = localStorage.getItem('userName');
+  const userID = localStorage.getItem('userID');
+  const [playerName, setPlayerName] = useState('Unknown Player');
   const [guessingPower, setGuessingPower]= useState(0);
   const [wins, setWins]= useState(0);
   const [losses, setLosses]= useState(0);
@@ -16,10 +18,10 @@ const Profile = () => {
 
   const loadPlayerData= async()=>{
     try{
-      const res= await axios.get(`${url}/play/profile/${userName}`);
+      const res= await axios.get(`${url}/play/profile/${userID}`);
       const player= res.data;
       // console.log(player);
-
+      setPlayerName(player.userName ?? "Unknown Player");
       setGuessingPower(player.guessingPower ?? 0);
       setWins(player.wins ?? 0);
       setLosses(player.losses ?? 0);
@@ -32,8 +34,8 @@ const Profile = () => {
   }
 
   const checkAuth= ()=>{
-    const userName= localStorage.getItem("userName");
-    if(!userName){
+    const currentUserID= localStorage.getItem("userID");
+    if(!currentUserID){
         toast.error("Please login first!");
         navigate('/login');
         return;
@@ -52,7 +54,8 @@ const Profile = () => {
       <div className="profileBox">
         <div className="profileItem">
           <span className="label">Username:</span>
-          <span className="value">{userName}</span>
+          {/* <span className="value">{userName}</span> */}
+          <span className="value">{playerName}</span>
         </div>
 
         <div className="profileItem">

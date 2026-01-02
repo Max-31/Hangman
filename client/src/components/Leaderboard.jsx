@@ -15,7 +15,9 @@ const Leaderboard = () => {
     }
     catch(err){
       console.log("Error in Leaderboard fetching");
-      toast.error("OOPS! "+err);
+      // toast.error("OOPS! "+err);
+      const msg = err.response?.data?.message || err.message;
+      toast.error("OOPS! " + msg);
     }
   }
 

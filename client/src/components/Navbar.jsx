@@ -16,8 +16,9 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("userName");
+    localStorage.removeItem("userID");
     setMenuOpen(false);
-    navigate("/signUp");
+    navigate("/login");
     return;
   };
 

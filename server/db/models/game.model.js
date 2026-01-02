@@ -1,23 +1,21 @@
 const mongoose= require('mongoose');
+// const Genre = require('./genre.model');
+// const Player = require('./player.model');
 
 const gameSchema= new mongoose.Schema(
     {
-        userName: {
-            type: String,
-            trim: true,
-            required: true
+        userID: { // now stores playerID
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Player'
+            // type: String,
+            // trim: true,
+            // required: true
         },
         word: {
-            type: String,
-            required: true
-        },
-        wordMap: {
-            type: Object,
-            required: true
-        },
-        wordPos: {
-            type: Object,
-            required: true
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Word'
+            // type: String,
+            // required: true
         },
         hiddenWord: {
             type: String,
@@ -27,21 +25,45 @@ const gameSchema= new mongoose.Schema(
             type: Number,
             default: 6
         },
-        guessLetters: {
+        guessedLetters: {
             type: [String],
             default: []
         },
-        genre: {
-            type: [String], //later upgrade to enum
+        guessedWords: {
+            type: [String],
+            default: []
+        },
+        isOver: {
+            type: Boolean,
+            default: false
+        },
+        isWin: {
+            type: Boolean,
+            default: null
         }
-        // isOver: {
-        //     type: Boolean,
-        //     default: false
-        // },
-        // isWin: {
-        //     type: Boolean,
-        //     default: null
-        // }
+        // will be obtained from word.model.js
+        //via .populate('word')
+        // genre: {
+            //     // type: String,
+            //     type: mongoose.Schema.Types.ObjectId,
+            //     ref: 'Genre',
+            // },
+            // contributor: {
+                //     // type: String,
+                //     type: mongoose.Schema.Types.ObjectId,
+                //     ref: 'Player',
+                //     // default: "System"
+                // }
+                
+            // wordMap: {
+            //     type: Object,
+            //     required: true
+            // },
+            // wordPos: {
+            //     type: Object,
+            //     required: true
+            // },
+
     },
     {
         timestamps: true

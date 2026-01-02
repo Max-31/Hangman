@@ -31,8 +31,8 @@ const Game = () => {
   const isNewGame= location.state?.isNewGame;
 
   const checkAuth= ()=>{
-    const userName= localStorage.getItem("userName");
-    if(!userName){
+    const userID= localStorage.getItem("userID");
+    if(!userID){
         toast.error("Please login first!");
         navigate('/login');
         return;
@@ -104,10 +104,11 @@ const Game = () => {
 
     const handleWord= async(data)=>{
       try{
-        const userName= localStorage.getItem("userName");
+        // const userName= localStorage.getItem("userName");
+        const userID= localStorage.getItem("userID");
         const res= await axios.put(`${url}/play/guess`,
           {
-            userName,
+            userID,
             isWord: true,
             guessedWord: data.word
           }
@@ -122,7 +123,12 @@ const Game = () => {
             setRealWord(gameDetails.word);
           }
           else{
-            toast.error(`OOPS! "${data.word.toUpperCase()}" is NOT the Word!`);
+            if(gameDetails.alreadyGuessed) {
+              toast.error(gameDetails.message); // already guessed
+            } 
+            else{
+              toast.error(`OOPS! "${data.word.toUpperCase()}" is NOT the Word!`);
+            }
             setAttempt(gameDetails.attemptLeft);
           }
         }
@@ -142,10 +148,11 @@ const Game = () => {
 
     const handleLetter= async(data)=>{
       try{
-        const userName= localStorage.getItem("userName");
+        // const userName= localStorage.getItem("userName");
+        const userID= localStorage.getItem("userID");
         const res= await axios.put(`${url}/play/guess`,
           {
-            userName,
+            userID,
             isWord: false,
             Letter: data.letter
           }
@@ -163,7 +170,11 @@ const Game = () => {
             }
             else{            
               if(!gameDetails.guessSuccess){
-                toast.error(`OOPS! "${data.letter.toUpperCase()}" is NOT Present!`);
+                if(gameDetails.alreadyGuessed) {
+                  toast.error(gameDetails.message); // already guessed
+                } else {
+                  toast.error(`OOPS! "${data.letter.toUpperCase()}" is NOT Present!`);
+                }
                 setAttempt(gameDetails.attemptLeft);
               }
               else{

@@ -10,7 +10,8 @@ const playerSchema= new mongoose.Schema(
         userName: {
             type: String,
             required: [true, "Please Enter UserName!"],
-            unique: [true, "UserName Already Exists!"]
+            unique: [true, "UserName Already Exists!"],
+            trim: true
         },
         password: {
             type: String,

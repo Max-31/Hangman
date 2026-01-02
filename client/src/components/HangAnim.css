@@ -1,26 +1,3 @@
-.playLink {
-  margin-top: 30px;
-  padding: 15px 30px;
-  border: 3px solid #cccccc;
-  border-radius: 10px;
-  text-decoration: none;
-  color: #cccccc;
-  /* color: #333; */
-  font-size: 2.5rem;
-  font-weight: bold;
-  
-  font-family: 'monospace', 'Courier New', Courier;
-  letter-spacing: 0.5em; /* Space btw letters */
-  
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.playLink:hover {
-  background-color: #333;
-  color: #fff;
-  border: 4px solid #fff;
-}
-
 .hangAnimContainer {
   margin-left: 16%;
   margin-top: 3%;
@@ -28,7 +5,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* height: 100vh; */
 }
 
 .hangAnimHeading {
@@ -41,23 +17,119 @@
   width: 90%;
 }
 
+/* --- BUTTON GROUP CONTAINER --- */
+.buttonGroup {
+  display: flex;
+  flex-direction: column; /* Stack them vertically */
+  align-items: center;
+  gap: 20px;       /* Space between Play and Rules */
+  margin-top: 30px;
+}
+
+/* --- PLAY BUTTON --- */
+.playLink {
+  /* Removed margin-top (handled by buttonGroup) */
+  padding: 15px 30px;
+  border: 3px solid #cccccc;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #cccccc;
+  font-size: 2.5rem;
+  font-weight: bold;
+  font-family: 'monospace', 'Courier New', Courier;
+  letter-spacing: 0.5em; 
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.playLink:hover {
+  background-color: #333;
+  color: #fff;
+  border-color: #fff;
+}
+
+/* --- RULES BUTTON (New) --- */
+.rulesLink {
+  padding: 10px 25px;
+  border: 2px solid #cccccc; /* Slightly thinner border */
+  border-radius: 8px;
+  text-decoration: none;
+  color: #cccccc;
+  font-size: 1.5rem;         /* Smaller font than PLAY */
+  font-weight: bold;
+  font-family: 'monospace', 'Courier New', Courier;
+  letter-spacing: 0.2em;     /* Tighter spacing */
+  transition: all 0.3s ease;
+}
+
+.rulesLink:hover {
+  background-color: #444;    /* Slightly lighter dark bg */
+  color: #fff;
+  border-color: #fff;
+  transform: scale(1.05);    /* Subtle pop effect */
+}
+
 /* ─────────────────────────────────────────────
     Responsive Part
    ───────────────────────────────────────────── */
 @media (max-width: 1024px) {
-  .hangAnimContainer{
-    margin-left: 3%;
-  }
+  .hangAnimContainer{ margin-left: 3%; }
 }
 
 @media (max-width: 768px) {
-  .hangAnimContainer{
-    margin-left: 3%;
-  }
+  .hangAnimContainer{ margin-left: 3%; }
 }
 
 @media (max-width: 480px) {
-  .hangAnimContainer{
-    margin-left: 3%;
-  }
+  .hangAnimContainer{ margin-left: 3%; }
+  
+  /* Adjust button sizes for mobile if needed */
+  .playLink { font-size: 2rem; }
+  .rulesLink { font-size: 1.2rem; }
+}
+
+@keyframes pulseSize {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.5); } /* Grows 50% bigger */
+  100% { transform: scale(1); }
+}
+
+/* --- RULES BUTTON --- */
+.rulesLink {
+  padding: 10px 25px;
+  /* border: 2px solid #cccccc; */
+  border: 2px solid #b2adad;
+  border-radius: 8px;
+  text-decoration: none;
+  /* color: #cccccc; */
+  color: #b2adad;
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: 'monospace', 'Courier New', Courier;
+  letter-spacing: 0.2em;
+  transition: all 0.3s ease;
+  
+  /* align the text and the ? */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; 
+}
+
+.rulesLink:hover {
+  background-color: #444;
+  color: #fff;
+  border-color: #fff;
+  transform: scale(1.05);
+}
+
+/* --- QUESTION MARK SPECIFIC STYLES --- */
+.questionMark {
+  display: inline-block; /* Required for transform to work on a span */
+  animation: pulseSize 1.2s infinite ease-in-out; /* The animation loop */
+  color: #b2adad; /* Slightly dimmer by default for effect */
+}
+
+/* Make the ? turn white immediately when hovering the button */
+.rulesLink:hover .questionMark {
+  color: #fff;
 }

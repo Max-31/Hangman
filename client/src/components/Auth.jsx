@@ -25,7 +25,7 @@ const Auth = () => {
       const result= await axios.post(`${url}/auth/signUp`, {userName, password});
     
       toast.success(result.data.message);
-      localStorage.setItem("userName", userName);
+      // localStorage.setItem("userName", userName);
       navigate('/login');
       return;
     }
@@ -42,8 +42,10 @@ const Auth = () => {
       const {userName, password}= data;
       const result= await axios.post(`${url}/auth/login`, {userName, password});
       
+      // localStorage.setItem("userName", userName);
+      localStorage.setItem("userName", result.data.user.userName);
+      localStorage.setItem("userID", result.data.user._id);
       toast.success("DONE " + result.data.message);
-      localStorage.setItem("userName", userName);
       navigate('/');
       return;
     }

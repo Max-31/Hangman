@@ -40,7 +40,13 @@ const HangAnim = () => {
         alt="Hangman Animation" 
         className="hangAnimGif"
       />
-      <Link to='/play' className="playLink">{animText}</Link>
+
+      {/* <Link to='/play' className="playLink">{animText}</Link> */}
+      <div className="buttonGroup">
+        <Link to='/play' className="playLink">{animText}</Link>
+        <Link to='/rules' className="rulesLink">RULES <span className="questionMark">?</span></Link>
+      </div>
+    
     </div>
   )
 }

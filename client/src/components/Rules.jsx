@@ -1,6 +1,36 @@
 import './Rules.css';
+import { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Rules = () => {
+
+  const [animText, setAnimText]= useState("PLAY");
+    let index= useRef(0);
+  
+    useEffect(
+      ()=>{
+  
+        const intervalID= setInterval(
+          ()=>{
+            const strAnim= "PLAY";
+  
+            const strArr= strAnim.split('');
+  
+            strArr[index.current]= '_';
+  
+            setAnimText(strArr.join(''));
+   
+            index.current= (index.current + 1) % 4;
+   
+          }, 500
+        );
+  
+        return ()=>clearInterval(intervalID);
+      },
+  
+      []
+    )
+
   return (
     <div className="rules-container">
       <h2 className="rules-title">Hangman Rules & Tips</h2>
@@ -33,6 +63,11 @@ const Rules = () => {
           <li>Be careful with full word guesses — they're risky!</li>
         </ul>
       </div>
+
+      {/* <div className="rules-section"> */}
+        <Link to='/play' className="playLink">{animText}</Link>
+      {/* </div> */}
+
     </div>
   );
 };

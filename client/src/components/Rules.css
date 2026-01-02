@@ -46,6 +46,26 @@
   margin-bottom: 8px;
 }
 
+.playLink {
+  margin-top: 50px;
+  padding: 15px 30px;
+  border: 3px solid #cccccc;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #cccccc;
+  font-size: 2.5rem;
+  font-weight: bold;
+  font-family: 'monospace', 'Courier New', Courier;
+  letter-spacing: 0.5em; 
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.playLink:hover {
+  background-color: #333;
+  color: #fff;
+  border-color: #fff;
+}
+
 /* ────────────────────────────────────────────────
     Responsive Part
    ──────────────────────────────────────────────── */

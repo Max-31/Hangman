@@ -45,6 +45,8 @@ const Auth = () => {
       // localStorage.setItem("userName", userName);
       localStorage.setItem("userName", result.data.user.userName);
       localStorage.setItem("userID", result.data.user._id);
+      localStorage.setItem("role", result.data.user.role || "Player");
+      
       toast.success("DONE " + result.data.message);
       navigate('/');
       return;

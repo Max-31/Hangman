@@ -3,12 +3,25 @@ const mongoose= require('mongoose');
 const cors= require('cors');
 const app= express();
 require('dotenv').config();
+const helmet= require('helmet');
 
 const auth= require('./routes/auth.routes');
 const play= require('./routes/play.routes');
+const cookieParser = require('cookie-parser');
 
+app.use(helmet());
+// app.disable('x-powered-by');
+
+app.use(cors(
+    {
+        origin: process.env.CLIENT_URL,
+        credentials: true,
+        methods: ["GET", "POST", "PUT", "DELETE"]
+    }
+));
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser())
+
 app.use('/auth', auth);
 app.use('/play', play);
 

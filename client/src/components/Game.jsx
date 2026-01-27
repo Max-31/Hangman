@@ -141,6 +141,13 @@ const Game = () => {
       }
       catch(err){
         console.log("Error in handleWord(): "+ err);
+
+        if (err.response && err.response.status === 401) {
+          toast.error("Session Expired. Please Login again.");
+          navigate('/login');
+          return;
+        }
+
         const errMsg= err.response?.data?.message || "Issue in Word Checking";
         toast.error("OOPS! " + errMsg);
       }
@@ -201,6 +208,13 @@ const Game = () => {
       catch(err){
         // toast.error(`OOPS! ${err}`);
         console.log("Error in handleLetter(): "+ err);
+
+        if (err.response && err.response.status === 401) {
+          toast.error("Session Expired. Please Login again.");
+          navigate('/login');
+          return;
+        }
+
         const errMsg= err.response?.data?.message || "Issue in Letter Checking";
         toast.error("OOPS! " + errMsg);
       }

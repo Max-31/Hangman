@@ -9,6 +9,9 @@ import Rules from './components/Rules'
 import Profile from './components/Profile'
 import { Toaster } from 'react-hot-toast'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import axios from 'axios'
+
+axios.defaults.withCredentials= true; //include cookies with every request
 
 //testing
 // import Win from './components/Win'

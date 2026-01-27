@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
+import axios from "axios";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -14,12 +15,21 @@ const Navbar = () => {
     navigate(path);
   }
 
-  const handleLogout = () => {
-    localStorage.removeItem("userName");
-    localStorage.removeItem("userID");
-    setMenuOpen(false);
-    navigate("/login");
-    return;
+  const handleLogout = async() => {
+
+    try{
+      await axios.post(`${import.meta.env.VITE_API_URL}/auth/logout`);
+      localStorage.removeItem("userName");
+      localStorage.removeItem("userID");
+      localStorage.removeItem("role");
+      setMenuOpen(false);
+    }
+    catch(err){
+      console.log(err.message);
+    }
+    finally{
+      navigate("/login");
+    }
   };
 
   return (

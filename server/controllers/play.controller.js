@@ -1,7 +1,7 @@
 const Player= require('../db/models/player.model');
 const Game= require('../db/models/game.model');
-// const Word= require('../words/word');
 const Word= require('../db/models/word.model');
+// const Word= require('../words/word');
 
 //helper
 const generateWord= async()=>{

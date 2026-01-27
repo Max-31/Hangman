@@ -17,6 +17,13 @@ const playerSchema= new mongoose.Schema(
             type: String,
             required: [true, "Please Enter Password!"]
         },
+
+        role: {
+            type: String,
+            enum: ['player', 'admin'],
+            default: 'player'
+        },
+
         guessingPower: {
             type: Number,
             default: 0

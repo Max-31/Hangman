@@ -24,10 +24,11 @@ const GameChoice = () => {
       }
     }
     catch(err){
+      const errMsg= err.response?.data?.message || "Issue in Auth Checking";
       console.log("Error in checkAuth()");
       console.log(err);
-      const errMsg= err.response?.data?.message || "Issue in Auth Checking";
-      toast.error("OOPS! " + errMsg);
+      console.log(errMsg);
+      toast.error("OOPS! Internal Error");
     }
   }
 
@@ -41,10 +42,19 @@ const GameChoice = () => {
       setContinue(res.gameSession);
     }
     catch(err){
+
       console.log("Error in checkGameSession()");
-      console.log(err);
+
+      if (err.response && err.response.status === 401) {
+        toast.error("Session Expired. Please Login again.");
+        navigate('/login');
+        return;
+      }
+
       const errMsg= err.response?.data?.message || "Issue in Checking Game Session";
-      toast.error("OOPS! " + errMsg);
+      console.log(err);
+      console.log(errMsg);
+      toast.error("OOPS! Internal Error");
     }
   }
 
@@ -70,6 +80,12 @@ const GameChoice = () => {
       })
     }
     catch(err){
+      if (err.response && err.response.status === 401) {
+        toast.error("Session Expired. Please Login again.");
+        navigate('/login');
+        return;
+      }
+
       toast.error("ERROR Loading New Game!");
       console.log(err.message);
     }
@@ -88,6 +104,12 @@ const GameChoice = () => {
       })
     }
     catch(err){
+      if (err.response && err.response.status === 401) {
+        toast.error("Session Expired. Please Login again.");
+        navigate('/login');
+        return;
+      }
+
       toast.error("ERROR Loading Continue Game!");
       console.log(err.message);
     }

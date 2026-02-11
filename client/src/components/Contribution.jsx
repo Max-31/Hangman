@@ -307,7 +307,7 @@ const Contribution = () => {
                     {...register("word", {
                       required: "Word is required",
                       pattern: {
-                        value: /^[A-Za-z]+$/,
+                        value: /^[A-Z]+$/,
                         message: "Only alphabets (A-Z) allowed",
                       },
                     })}

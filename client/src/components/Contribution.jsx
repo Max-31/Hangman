@@ -20,6 +20,7 @@ import "./Contribution.css";
 import Loader from "./Loader";
 
 const Contribution = () => {
+  const navigate= useNavigate();
   const url = import.meta.env.VITE_API_URL;
   const userID = localStorage.getItem("userID");
 
@@ -83,6 +84,22 @@ const Contribution = () => {
       setLoading(false);
     }
   };
+
+  const checkAuth= ()=>{
+    const currentUserID= localStorage.getItem("userID");
+    if(!currentUserID){
+        toast.error("Please login first!");
+        navigate('/login');
+        return;
+    }
+  }
+
+  useEffect(
+    ()=>{
+      checkAuth();
+    },
+    []
+  )
 
   useEffect(() => {
     if (activeTab === "ADD") fetchGenres();

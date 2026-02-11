@@ -20,7 +20,6 @@ import "./Contribution.css";
 import Loader from "./Loader";
 
 const Contribution = () => {
-  const navigate = useNavigate();
   const url = import.meta.env.VITE_API_URL;
   const userID = localStorage.getItem("userID");
 
@@ -94,6 +93,7 @@ const Contribution = () => {
         await axios.put(`${url}/contribution/notifications/clear`, { userID });
       } catch (err) {
         console.log("Failed to clear notifications");
+        console.log(err);
       }
     };
 

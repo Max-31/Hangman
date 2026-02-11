@@ -4,7 +4,6 @@ import LeaderboardEachPlayer from "./LeaderboardEachPlayer";
 import "./Leaderboard.css";
 import toast from "react-hot-toast";
 import Loader from "./Loader";
-import api from "../../../admin/src/api";
 
 const url = import.meta.env.VITE_API_URL;
 

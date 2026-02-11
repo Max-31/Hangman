@@ -20,6 +20,7 @@ const Game = () => {
 
   const [genre, setGenre]= useState("Loading...");
   const [displayWord, setDisplayWord]= useState('Loading...');
+  const [contributor, setContributor]= useState('Computer');
   const [attempt, setAttempt]= useState(6);
   const [isOver, setIsOver] = useState(false);
   const [isWin, setIsWin] = useState(false);
@@ -54,6 +55,7 @@ const Game = () => {
         toast.success(gameInfo.message);
         setGenre(gameInfo.genre);
         setDisplayWord(gameInfo.hiddenWord);
+        setContributor(gameInfo.contributor);
       }
       else{
         //res-> existingGame: true, genre, hiddenWord: isGame.hiddenWord, attemptLeft, message: 'Resuming existing game!'
@@ -253,6 +255,13 @@ const Game = () => {
         <div className="attempts">
           <h5>ATTEMPTS LEFT: {attempt}</h5>
         </div>
+        {
+          (contributor !== 'Computer') && (
+            <div className="attempts">
+              <h5>Word Contributed by: {contributor}</h5>
+            </div>
+          )
+        }
       </div>
 
       {/* Flex container for Hangman and Input side by side */}

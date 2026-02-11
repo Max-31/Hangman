@@ -7,6 +7,7 @@ const helmet= require('helmet');
 
 const auth= require('./routes/auth.routes');
 const play= require('./routes/play.routes');
+const contribution= require('./routes/contribution.routes');
 const cookieParser = require('cookie-parser');
 
 app.use(helmet());
@@ -14,7 +15,7 @@ app.use(helmet());
 
 app.use(cors(
     {
-        origin: process.env.CLIENT_URL,
+        origin: [process.env.CLIENT_URL, process.env.ADMIN_URL],
         credentials: true,
         methods: ["GET", "POST", "PUT", "DELETE"]
     }
@@ -24,6 +25,7 @@ app.use(cookieParser())
 
 app.use('/auth', auth);
 app.use('/play', play);
+app.use('/contribution', contribution);
 
 const port= process.env.PORT;
 const mongoURI= process.env.MONGO_URI;

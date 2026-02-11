@@ -1,6 +1,8 @@
 const Player= require('../db/models/player.model');
 const Game= require('../db/models/game.model');
 const Word= require('../db/models/word.model');
+const Contribution = require('../db/models/contribution.model');
+const mongoose = require('mongoose');
 // const Word= require('../words/word');
 
 //helper
@@ -75,7 +77,7 @@ const newHighScore= (guessPow, isPlayer)=>{
     return guessPow > isPlayer.highScore;
 }
 
-//-------------------------------controllers-------------------------------
+//controllers
 const profile= async(req, res)=>{
     try{
         const {userID}= req.params;
@@ -83,8 +85,11 @@ const profile= async(req, res)=>{
         // const playerData= await Player.findOne({userName}).select("userName wins guessingPower losses highScore");
         // now userName from Frontend sends player ID
         const playerData = await Player.findById(userID).select("userName wins guessingPower losses highScore");
+        // const playerContribution = await Contribution.find({userID: playerData._id, status: 'APPROVED'}).populate('linkedGenre', 'name').sort({ updatedAt: -1 });
         
-        return res.status(200).json(playerData);
+        const playerContribution = await Word.find({contributor: playerData._id}).populate('genre')
+
+        return res.status(200).json({playerData, playerContribution});
     }
     catch(err){
         return res.status(500).json({message: "Unable to get Player!"});
@@ -113,7 +118,7 @@ const newGame= async(req, res)=>{
         const isGame= await Game.findOne({userID});
         
         if(isGame){
-            gameOver(isGame._id);
+            await gameOver(isGame._id);
         }
         
         // my old func which fetches random word from word.js thus no async await
@@ -231,23 +236,37 @@ const isRemAttempts= (remainingAttempts)=>{
     return true;
 } 
 
-const gameOver= async(id)=>{
+const gameOver= async(id, session = null)=>{
     try {
-        await Game.findByIdAndDelete(id);
-    } catch (err) {
+        if(session)
+            await Game.findByIdAndDelete(id).session(session);
+        else 
+            await Game.findByIdAndDelete(id);
+
+    } 
+    catch (err) {
         console.error(`Error deleting game with id ${id}:`, err.message);
+  
+        if(session) throw err; // I Throw to trigger transaction abort
     }
 }
 
 const manageAttempt = async (res, isGame, actualWord) => {
+    let session = null;
     try{
         const remAttempts = isGame.remainingAttempts - 1;
     
         if (!isRemAttempts(remAttempts)) {
+            session= await mongoose.startSession();
+            session.startTransaction();
             // const word= isGame.word;
-    
-            await saveLoss(isGame);
-            await gameOver(isGame._id);
+
+            await saveLoss(isGame, session);
+
+            await gameOver(isGame._id, session);
+
+            await session.commitTransaction();
+            session.endSession();
 
             return res.status(200).json({
                 playerFound: true,
@@ -255,7 +274,7 @@ const manageAttempt = async (res, isGame, actualWord) => {
                 isWin: false,
                 word: actualWord,
                 message: "YOU LOST! GAME OVER."
-            });
+            });            
         }
     
         isGame.remainingAttempts = remAttempts;
@@ -270,15 +289,23 @@ const manageAttempt = async (res, isGame, actualWord) => {
     }
     catch(err){
         console.log("error in Manage Attempts");
+
+        if(session){
+            await session.abortTransaction();
+            session.endSession();
+            console.log("Transaction aborted in manageAttempt (Loss)")
+        }
+
+        return res.status(500).json({ message: "Server Error in manageAttempt" });
     }
 }
 
-const saveWin= async(isGame)=>{
+const saveWin= async(isGame, session)=>{
     try{
         const userID= isGame.userID;
         const attemptLeft= isGame.remainingAttempts;
 
-        const isPlayer= await Player.findById(userID);
+        const isPlayer= await Player.findById(userID).session(session);
         
         const newWin= isPlayer.wins + 1;
         isPlayer.wins= newWin;
@@ -290,24 +317,26 @@ const saveWin= async(isGame)=>{
 
         if(isHighScore){
             isPlayer.highScore= guessPow;
-            await isPlayer.save();
+
+            await isPlayer.save({ session });
             return true;
         }
         else{
-            await isPlayer.save();
+            await isPlayer.save({ session });
             return false;
         }
     }
     catch(err){
         console.log("error in SaveWin");
+        throw err; // I Throw to trigger transaction abort
     }
 }
 
-const saveLoss= async(isGame)=>{
+const saveLoss= async(isGame, session)=>{
     try{
         const userID= isGame.userID;
 
-        const isPlayer= await Player.findById(userID);
+        const isPlayer= await Player.findById(userID).session(session);
         
         const newLosses= isPlayer.losses + 1;
         isPlayer.losses= newLosses;
@@ -317,140 +346,165 @@ const saveLoss= async(isGame)=>{
             isPlayer.guessingPower= newGuessPow;
         }
 
-        await isPlayer.save();
+        await isPlayer.save({session});
 
     }
     catch(err){
-        console.log("error in SaveWin");
+        console.log("error in SaveLoss");
+        throw err;
     }
 }
 
 const checkWord = async(req, res, isGame, actualWord) => {
     // const { guessedWord } = req.body;
     const guessedWord = req.body.guessedWord?.trim().toLowerCase();
+    let session = null;
 
-    if (actualWord === guessedWord) {
-        // const word= isGame.word;
+    try{
+
+        if (actualWord === guessedWord) {
+            // const word= isGame.word;
+    
+            session = await mongoose.startSession();
+            session.startTransaction();
+            
+            const highScore= await saveWin(isGame, session);
+            await gameOver(isGame._id, session);
+    
+            await session.commitTransaction();
+            session.endSession();
+    
+            return res.status(200).json({
+                playerFound: true,
+                isOver: true,
+                isWin: true,
+                isHighScore: highScore,
+                message: "You guessed all the letters correctly!",
+                word: actualWord,
+                guessSuccess: true
+            });
+    
+            // if(highScore){
+            //     return res.status(200).json({
+            //         playerFound: true,
+            //         isOver: true,
+            //         isWin: true,
+            //         isHighScore: true,
+            //         message: "You guessed all the letters correctly!",
+            //         word,
+            //         guessSuccess: true
+            //     });
+            // }
+    
+        } else {
+            if(isGame.guessedWords.includes(guessedWord)){
+                return res.status(200).json({
+                    playerFound: true,
+                    isOver: false,
+                    guessSuccess: false,
+                    alreadyGuessed: true,
+                    attemptLeft: isGame.remainingAttempts,
+                    message: `You have already guessed "${guessedWord.toUpperCase()}".`
+                });
+            }
+            isGame.guessedWords.push(guessedWord);
+            return await manageAttempt(res, isGame, actualWord);
+        }
+    }
+    catch(err){
+        console.log("Error in checkWord");
         
-        const highScore= await saveWin(isGame);
-        // console.log(highScore)
-        await gameOver(isGame._id);
+        if(session){
+            await session.abortTransaction();
+            session.endSession();
+            console.log("Transaction aborted in checkWord");
+            return res.status(500).json({ message: "Error in checkWord" });
+        }
 
-        return res.status(200).json({
-            playerFound: true,
-            isOver: true,
-            isWin: true,
-            isHighScore: highScore,
-            message: "You guessed all the letters correctly!",
-            word: actualWord,
-            guessSuccess: true
-        });
+        console.log(err);
+    }
 
-        // if(highScore){
-        //     return res.status(200).json({
-        //         playerFound: true,
-        //         isOver: true,
-        //         isWin: true,
-        //         isHighScore: true,
-        //         message: "You guessed all the letters correctly!",
-        //         word,
-        //         guessSuccess: true
-        //     });
-        // }
+}
 
-    } else {
-        if(isGame.guessedWords.includes(guessedWord)){
+const checkLetter= async(req, res, isGame, actualWord)=>{
+    // const {Letter}= req.body;
+    const Letter= req.body.Letter?.trim();
+    let session = null;
+
+    try{
+
+        if (Letter.length !== 1) {
+            return res.status(400).json({ message: "Invalid letter input." });
+        }
+    
+        const LetterLow= Letter.toLowerCase();
+    
+        if (isGame.guessedLetters.includes(LetterLow)) {
             return res.status(200).json({
                 playerFound: true,
                 isOver: false,
                 guessSuccess: false,
                 alreadyGuessed: true,
                 attemptLeft: isGame.remainingAttempts,
-                message: `You have already guessed "${guessedWord.toUpperCase()}".`
+                message: `You have already guessed "${LetterLow.toUpperCase()}".`
             });
         }
-        isGame.guessedWords.push(guessedWord);
-        return await manageAttempt(res, isGame, actualWord);
-    }
-}
+        isGame.guessedLetters.push(LetterLow);    
+    
+        const wordData = isGame.word;
+        if(!wordData.wordMap || !wordData.wordMap[LetterLow]){
+            return await manageAttempt(res, isGame, actualWord);
+        }
+    
+        const posList= wordData.wordPos[LetterLow];
+        let newHiddenWord = isGame.hiddenWord.split('');  // Convert to array for easy update
+    
+        for (let i of posList) {
+            newHiddenWord[2 * i] = LetterLow; // 2*i to handle spaces between underscores
+        }
+    
+        isGame.hiddenWord = newHiddenWord.join(''); // Convert back to string
+        await isGame.save();
+    
+        //if all letters guessed (remove spaces for comparison)
+        const cleanedHidden = isGame.hiddenWord.replace(/\s/g, '');
+        if (cleanedHidden === actualWord) {
+            session = await mongoose.startSession();
+            session.startTransaction();
 
-const checkLetter= async(req, res, isGame, actualWord)=>{
-    // const {Letter}= req.body;
-    const Letter= req.body.Letter?.trim();
+            await gameOver(isGame._id, session);
+            const highScore= await saveWin(isGame, session);
+    
+            await session.commitTransaction();
+            session.endSession();
 
-    if (Letter.length !== 1) {
-        return res.status(400).json({ message: "Invalid letter input." });
-    }
-
-    const LetterLow= Letter.toLowerCase();
-
-    if (isGame.guessedLetters.includes(LetterLow)) {
-        // return res.status(409).json({ message: "You already guessed this letter." });
-        // const attemptLeft= isGame.remainingAttempts;
-        // console.log(attemptLeft);
+            return res.status(200).json({
+                playerFound: true,
+                isOver: true,
+                isWin: true,
+                isHighScore: highScore,
+                word: isGame.hiddenWord,
+                message: "You have guessed all the letters correctly!"
+            });
+        }
+    
         return res.status(200).json({
             playerFound: true,
             isOver: false,
-            guessSuccess: false,
-            alreadyGuessed: true,
-            attemptLeft: isGame.remainingAttempts,
-            message: `You have already guessed "${LetterLow.toUpperCase()}".`
+            guessSuccess: true,
+            newHiddenWord: isGame.hiddenWord
         });
     }
-    isGame.guessedLetters.push(LetterLow);    
-
-    const wordData = isGame.word;
-    if(!wordData.wordMap || !wordData.wordMap[LetterLow]){
-        return await manageAttempt(res, isGame, actualWord);
-    }
-    // const isPresent= LetterLow in isGame.wordMap;
-    // if(!isPresent){
-    //     return await manageAttempt(res, isGame, actualWord);
-    // }
-
-    const posList= wordData.wordPos[LetterLow];
-    let newHiddenWord = isGame.hiddenWord.split('');  // Convert to array for easy update
-
-    for (let i of posList) {
-        newHiddenWord[2 * i] = LetterLow; // 2*i to handle spaces between underscores
+    catch(err){
+        console.log("Error in checkLetter");
+        if(session){
+            await session.abortTransaction();
+            session.endSession();
+            console.log("Transaction aborted in checkLetter");
+        }
+        console.log(err);
     }
 
-    isGame.hiddenWord = newHiddenWord.join(''); // Convert back to string
-    await isGame.save();
-
-    //if all letters guessed (remove spaces for comparison)
-    const cleanedHidden = isGame.hiddenWord.replace(/\s/g, '');
-    if (cleanedHidden === actualWord) {
-        await gameOver(isGame._id);
-
-        const highScore= await saveWin(isGame);
-        // if(highScore){
-        //     return res.status(200).json({
-        //         playerFound: true,
-        //         isOver: true,
-        //         isWin: true,
-        //         isHighScore: highScore,
-        //         word: isGame.hiddenWord,
-        //         message: "You guessed all the letters correctly!"
-        //     });
-        // }
-
-        return res.status(200).json({
-            playerFound: true,
-            isOver: true,
-            isWin: true,
-            isHighScore: highScore,
-            word: isGame.hiddenWord,
-            message: "You have guessed all the letters correctly!"
-        });
-    }
-
-    return res.status(200).json({
-        playerFound: true,
-        isOver: false,
-        guessSuccess: true,
-        newHiddenWord: isGame.hiddenWord
-    });
 }
 
 const processGuess= async(req, res)=>{
@@ -490,7 +544,7 @@ const endGame= async(req,res) => {
             return res.status(404).json({message: "No Active Game session found!"});
         }
 
-        gameOver(isGame._id);
+        await gameOver(isGame._id);
         return res.status(200).json({message: "Game Session is Deleted!"})
     }
     catch(err){

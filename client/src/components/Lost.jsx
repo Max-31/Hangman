@@ -1,5 +1,6 @@
 import './Lost.css'
 import { useNavigate } from 'react-router-dom'
+import ContributionPromo from './ContributionPromo';
 
 const Lost = ({ word }) => {
   const navigate= useNavigate();
@@ -21,6 +22,9 @@ const Lost = ({ word }) => {
         }
         <button className="closeBtn" onClick={onPlayAgain}>Try Again</button>
       </div>
+
+      <ContributionPromo storeSession={true}/>
+
     </div>
   )
 }

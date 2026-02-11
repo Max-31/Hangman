@@ -1,9 +1,10 @@
-import {React} from 'react'
+import {React, useState} from 'react'
 import { useLocation, Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import './Auth.css'
+import Loader from './Loader'
 
 const url = import.meta.env.VITE_API_URL;
 
@@ -19,10 +20,21 @@ const Auth = () => {
     formState: { isSubmitting },
   } = useForm();
 
+  const [loading, setLoading]= useState(false);
+
   const credNew= async(data)=>{
+    setLoading(true);
     try{
       const {userName, password}= data;
-      const result= await axios.post(`${url}/auth/signUp`, {userName, password});
+
+      // Minimum 2sec delay promise
+      const minLoaderTime = new Promise(resolve => setTimeout(resolve, 1500));
+
+      // const result= await axios.post(`${url}/auth/signUp`, {userName, password});
+      const apiRequest= axios.post(`${url}/auth/signUp`, {userName, password});
+
+      // Wait for BOTH
+      const [_, result] = await Promise.all([minLoaderTime, apiRequest]);
     
       toast.success(result.data.message);
       // localStorage.setItem("userName", userName);
@@ -35,12 +47,22 @@ const Auth = () => {
       const errMsg= err.response?.data?.message || "Issue in SignUP";
       toast.error("OOPS! " + errMsg);
     }
+    finally{
+      setLoading(false);
+    }
   }
   
   const credCheck= async(data)=>{
+    setLoading(true);
     try{      
       const {userName, password}= data;
-      const result= await axios.post(`${url}/auth/login`, {userName, password});
+
+      const minLoaderTime = new Promise(resolve => setTimeout(resolve, 1500));
+
+      // const result= await axios.post(`${url}/auth/login`, {userName, password});
+      const apiRequest= axios.post(`${url}/auth/login`, {userName, password});
+
+      const [_, result]= await Promise.all([minLoaderTime, apiRequest]);
       
       // localStorage.setItem("userName", userName);
       localStorage.setItem("userName", result.data.user.userName);
@@ -56,6 +78,13 @@ const Auth = () => {
       const errMsg= err.response?.data?.message || "Issue in Login";
       toast.error("OOPS! " + errMsg);
     }
+    finally{
+      setLoading(false);
+    }
+  }
+
+  if(loading || isSubmitting){
+    return <Loader />
   }
 
   return (

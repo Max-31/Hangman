@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  /* The Royal Purple Palette */
+  --color-royal-dark: #3A0353;    /* Main Background */
+  --color-royal-light: #804A8A;   /* Cards / Sidebar / Input bg */
+  
+  /* The Golden Orange Palette */
+  --color-gold-soft: #F8D299;     /* Text / Subtitles */
+  --color-gold-vibrant: #F59E51;  /* Buttons / Highlights / Accents */
+  
+  /* Utility Colors */
+  --color-success: #10B981;       /* Green for Approve */
+  --color-danger: #EF4444;        /* Red for Deny */
+}
+
+/* Global Reset for that dark feel */
+body {
+  background-color: var(--color-royal-dark);
+  color: var(--color-gold-soft);
+  font-family: sans-serif;
+}

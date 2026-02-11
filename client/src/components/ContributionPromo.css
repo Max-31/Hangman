@@ -1,0 +1,165 @@
+.promo-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); /* Dimmed background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+  backdrop-filter: blur(4px);
+}
+
+.promo-modal {
+  background: #2c2c2c; /* Card Background */
+  width: 90%;
+  max-width: 400px;
+  padding: 2rem;
+  border-radius: 1rem;
+  border: 1px solid #4b5563;
+  box-shadow: 0 0 40px rgba(34, 211, 238, 0.15); /* Cyan Glow */
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.close-btn:hover { color: white; }
+
+/* Icon */
+.icon-glow {
+  font-size: 2.5rem;
+  color: #22d3ee; /* Cyan */
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.5));
+}
+
+.promo-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(to right, #fff, #9ca3af);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.promo-text {
+  font-size: 0.95rem;
+  color: #d1d5db;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.promo-text strong {
+  color: #22d3ee;
+}
+
+/* --- Mock Game UI (The Visual Hook) --- */
+.mock-game-ui {
+  background: #1a1a1a;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px dashed #4b5563;
+  margin-bottom: 1.5rem;
+}
+
+.mock-word {
+  font-family: monospace;
+  font-size: 1.5rem;
+  letter-spacing: 0.2rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.mock-credit {
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.credit-label {
+  color: #6b7280;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.credit-name {
+  color: #facc15; /* Gold for the name */
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* CTA Button */
+.promo-cta-btn {
+  width: 100%;
+  padding: 0.8rem;
+  background: #22c55e; /* Green */
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+}
+
+.promo-cta-btn:hover {
+  background: #16a34a;
+  transform: translateY(-2px);
+}
+
+/* Animation */
+@keyframes popIn {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-pop-in {
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* ========================================= */
+/* RESPONSIVE MEDIA QUERIES            */
+/* ========================================= */
+
+@media (max-width: 480px) {
+  .promo-modal {
+    padding: 1.5rem;
+    max-width: 95%; /* Take up more width */
+  }
+
+  .promo-title {
+    font-size: 1.5rem; /* Smaller title */
+  }
+
+  .promo-text {
+    font-size: 0.85rem; /* Smaller text */
+  }
+
+  .icon-glow {
+    font-size: 2rem; /* Smaller icon */
+    margin-bottom: 0.5rem;
+  }
+
+  .mock-word {
+    font-size: 1.2rem;
+    letter-spacing: 0.1rem;
+  }
+}

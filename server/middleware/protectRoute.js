@@ -1,5 +1,5 @@
 const jwt= require('jsonwebtoken');
-const Player= require('../db/models/player.model');
+// const Player= require('../db/models/player.model');
 
 const protectRoute= async(req, res, next)=>{
     try{
@@ -9,7 +9,7 @@ const protectRoute= async(req, res, next)=>{
             return res.status(401).json({ message: "Unauthorized: No Token Provided!"});
         }
         
-        const decoded= jwt.decode(token, process.env.JWT_SECRET);
+        const decoded= jwt.verify(token, process.env.JWT_SECRET);
         
         if(!decoded){
             return res.status(401).json({ message: "Unauthorized: Invalid Token!"});
@@ -20,6 +20,10 @@ const protectRoute= async(req, res, next)=>{
         //     return res.status(404).json({ message: "User NOT Found!"});
         // }
         // req.user= user;
+        req.user = {
+            _id: decoded.userID,
+            role: decoded.role
+        }
 
         next();
     }

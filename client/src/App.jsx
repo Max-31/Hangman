@@ -7,6 +7,9 @@ import GameChoice from './components/GameChoice'
 import Navbar from './components/Navbar'
 import Rules from './components/Rules'
 import Profile from './components/Profile'
+import Contribution from './components/Contribution'
+import ContributionPromo from './components/ContributionPromo'
+import Loader from './components/Loader'
 import { Toaster } from 'react-hot-toast'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import axios from 'axios'
@@ -86,18 +89,27 @@ const router= createBrowserRouter(
         <Rules/>
       </div>
     },
-    // {
-    //   path:'/testing',
-    //   element: 
-    //   <div>
-    //     <Navbar />
-    //     {/* <Win /> */}
-    //     {/* <Lost word={"music"}/> */}
-    //     {/* <Input /> */}
-    //     {/* <Hangman attempts={0}/> */}
-    //     <Deadman />
-    //   </div>
-    // }
+    {
+      path: '/contribute',
+      element: 
+      <div>
+        <Navbar />
+        <Contribution />
+        {/* <ContributionPromo /> */}
+      </div>
+    },
+    {
+      path:'/testing',
+      element: 
+      <div>
+        <Loader />
+        {/* <Win /> */}
+        {/* <Lost word={"music"}/> */}
+        {/* <Input /> */}
+        {/* <Hangman attempts={0}/> */}
+        {/* <Deadman /> */}
+      </div>
+    }
   ]
 )
 

@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import Loader from './Loader';
 
 const url= import.meta.env.VITE_API_URL;
 
@@ -14,8 +15,10 @@ const GameChoice = () => {
   const [continueBtn, setContinue]= useState(false); // No more Flickering
 
   const userID= localStorage.getItem("userID");
+  const [loading, setLoading]= useState(false);
 
   const checkAuth= ()=>{
+    
     try{
       if(!userID){
         toast.error("Please login first!");
@@ -33,10 +36,17 @@ const GameChoice = () => {
   }
 
   const checkGameSession= async()=>{
+    setLoading(true);
     try{
       if(!userID) return;
 
-      const response= await axios.get(`${url}/play/session/${userID}`);
+      const minLoaderTime = new Promise(resolve => setTimeout(resolve, 1500));
+
+      // const response= axios.get(`${url}/play/session/${userID}`);
+      const apiRequest= axios.get(`${url}/play/session/${userID}`);
+
+      const [_, response]= await Promise.all([minLoaderTime, apiRequest]);
+      
       const res= response.data;
 
       setContinue(res.gameSession);
@@ -56,6 +66,9 @@ const GameChoice = () => {
       console.log(errMsg);
       toast.error("OOPS! Internal Error");
     }
+    finally{
+      setLoading(false);
+    }
   }
 
   useEffect(
@@ -67,9 +80,16 @@ const GameChoice = () => {
   )
 
   const loadNewGame= async()=>{
+    setLoading(true);
     try{
 
-      const response= await axios.post(`${url}/play/newGame`, {userID});
+      const minLoaderTime = new Promise(resolve => setTimeout(resolve, 1500));
+
+      // const response= await axios.post(`${url}/play/newGame`, {userID});
+      const apiRequest= axios.post(`${url}/play/newGame`, {userID});
+
+      const [_, response]= await Promise.all([minLoaderTime, apiRequest]);
+
       const res= response.data;
 
       navigate('/game', {
@@ -89,11 +109,22 @@ const GameChoice = () => {
       toast.error("ERROR Loading New Game!");
       console.log(err.message);
     }
+    finally{
+      setLoading(false);
+    }
   }
 
   const loadContinue= async()=>{
+    setLoading(true);
     try{
-      const response= await axios.post(`${url}/play/continue`, {userID});
+
+      const minLoaderTime = new Promise(resolve => setTimeout(resolve, 1500));
+
+      // const response= await axios.post(`${url}/play/continue`, {userID});
+      const apiRequest= axios.post(`${url}/play/continue`, {userID});
+
+      const [_, response]= await Promise.all([minLoaderTime, apiRequest]);
+
       const res= response.data;
 
       navigate('/game', {
@@ -113,6 +144,13 @@ const GameChoice = () => {
       toast.error("ERROR Loading Continue Game!");
       console.log(err.message);
     }
+    finally{
+      setLoading(false);
+    }
+  }
+
+  if(loading){
+    return <Loader />
   }
 
   return (

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import hangGif from '../assets/gifStore/hang-anim.gif'
 import './HangAnim.css'
 import { useState, useEffect, useRef } from 'react'
+// import ContributionPromo from './ContributionPromo'
 
 const HangAnim = () => {
   const [animText, setAnimText]= useState("PLAY");
@@ -40,6 +41,8 @@ const HangAnim = () => {
         alt="Hangman Animation" 
         className="hangAnimGif"
       />
+
+      {/* <ContributionPromo storeSession={true}/> */}
 
       {/* <Link to='/play' className="playLink">{animText}</Link> */}
       <div className="buttonGroup">

@@ -3,14 +3,26 @@ import axios from "axios";
 import LeaderboardEachPlayer from "./LeaderboardEachPlayer";
 import "./Leaderboard.css";
 import toast from "react-hot-toast";
+import Loader from "./Loader";
+import api from "../../../admin/src/api";
 
 const url = import.meta.env.VITE_API_URL;
 
 const Leaderboard = () => {
   const [players, setPlayers]= useState([]);
+  const [loading, setLoading]= useState(false);
+
   const getLeaderboard= async() =>{
+    setLoading(true);
     try{
-      const res= await axios.get(`${url}/play/leaderboard`);
+
+      const minLoaderTime = new Promise(resolve => setTimeout(resolve, 1500));
+
+      // const res= await axios.get(`${url}/play/leaderboard`);
+      const apiRequest= axios.get(`${url}/play/leaderboard`);
+      
+      const [_, res]= await Promise.all([minLoaderTime, apiRequest]);
+
       setPlayers(res.data);      
     }
     catch(err){
@@ -19,6 +31,9 @@ const Leaderboard = () => {
       const msg = err.response?.data?.message || err.message;
       toast.error("OOPS! " + msg);
     }
+    finally{
+      setLoading(false);
+    }
   }
 
   useEffect(
@@ -26,6 +41,10 @@ const Leaderboard = () => {
       getLeaderboard();
     }, []
   )
+
+  if(loading){
+    return <Loader />
+  }
 
   return (
     <div className="leaderboardContainer">

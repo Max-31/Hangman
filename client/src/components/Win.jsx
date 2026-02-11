@@ -3,6 +3,7 @@ import Confetti from 'react-confetti'
 import { useNavigate } from 'react-router-dom'
 import './Win.css'
 import useSound from 'use-sound'
+import ContributionPromo from './ContributionPromo'
 
 // sound file
 import winSound from '../assets/sounds/win.mp3'
@@ -50,6 +51,9 @@ const Win = ({ highScore }) => {
           <button className="closeBtn" onClick={onPlayAgain}>Play Again</button>
         </div>
       </div>
+
+      <ContributionPromo storeSession={true}/>
+
     </>
   )
 }

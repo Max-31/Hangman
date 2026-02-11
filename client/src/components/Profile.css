@@ -46,6 +46,10 @@
   /* color: #c9d1d9; */
 }
 
+.bottom-profile-item{
+  margin-bottom: 7%;
+}
+
 /* ─────────────────────────────────────────────
      Responsive Part
    ───────────────────────────────────────────── */
@@ -106,47 +110,119 @@
   }
 }
 
+/* --- Contributions Section --- */
+/* --- Contribution Cards (Updated) --- */
+.contributions-section{
+  margin-top: 5%;
+}
 
-/* 
-/* DARK MODE STYLES *
-.profileContainer.dark {
+.contrib-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  margin-top: 1rem;
+}
+
+.contrib-card {
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  padding: 1rem 1.25rem; /* Increased padding for cleaner look */
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+}
+
+.contrib-card:hover {
+  border-color: #555;
+  transform: translateX(4px);
+  background-color: #222;
+}
+
+.contrib-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem; /* Space between word and date */
+}
+
+.word-text { 
+  font-size: 1.2rem; /* Larger to stand out */
+  font-weight: 800; 
+  color: white; 
+  letter-spacing: 0.05em;
+}
+
+.genre-tag { 
+  font-size: 0.85rem; 
+  color: #9ca3af; /* Gray-400 */
+  font-style: italic;
+}
+
+.promo-cta-btn {
+  margin-top: 3%;
+  width: 100%;
+  padding: 0.8rem;
+  background: #22c55e; /* Green */
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+}
+
+.promo-cta-btn:hover {
+  background: #16a34a;
+  transform: translateY(-2px);
+}
+
+/* .contrib-date {
+  font-size: 0.75rem;
+  color: #666;
+  font-weight: 600;
+  text-align: right;
+  min-width: 80px; 
+} */
+
+.contrib-date {
+  font-size: 0.7rem;
+  font-weight: bold;
+  background-color: #333;
+  color: #9ca3af;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 640px) {
+  .profileContainer { margin-left: 0; width: 100%; padding: 1rem; }
+  .profileBox { padding: 1.5rem; }
+  .profileHeading { font-size: 2rem; }
+  .contrib-content {
+    gap: 0.25rem; /* Space between word and date */
+  }
+  .word-text { 
+    font-size: 1rem; /* Larger to stand out */
+    font-weight: 800; 
+    color: white; 
+    letter-spacing: 0.05em;
+  }
+  .contrib-card {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    padding: 1rem 1.25rem; /* Increased padding for cleaner look */
+    border-radius: 0.75rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px;
-    height: 100vh;
-    background-color: #0d1117;
-    color: #f0f6fc;
+    justify-content: center;
+    transition: all 0.2s ease;
   }
-  
-  .profileHeading {
-    font-size: 2.5rem;
-    margin-bottom: 30px;
-    color: #f0f6fc;
-  }
-  
-  .profileBox {
-    background-color: #161b22;
-    padding: 30px 40px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.4);
-    width: 100%;
-    max-width: 500px;
-    transition: 0.3s ease;
-  }
-  
-  .profileItem {
-    display: flex;
-    justify-content: space-between;
-    margin: 18px 0;
-  }
-  
-  .label {
-    font-weight: bold;
-    color: #8b949e;
-  }
-  
-  .value {
-    color: #c9d1d9;
-  }
-   */
+}

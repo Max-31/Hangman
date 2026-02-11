@@ -36,6 +36,8 @@ const wordSchema= mongoose.Schema(
     }
 );
 
+wordSchema.index({word:1, genre:1}, {unique:1});
+
 const Word= mongoose.model('Word', wordSchema);
 
 module.exports= Word;

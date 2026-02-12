@@ -142,7 +142,7 @@ const Profile = () => {
                   <div className="contrib-content">
                     <span className="word-text">{item.word.toUpperCase()}</span>
                     <span className="genre-tag">
-                      in {item.genre?.name || 'Unknown Genre'}
+                      in {item.genre?.name.toUpperCase() || 'Unknown Genre'}
                     </span>
                   </div>
                  

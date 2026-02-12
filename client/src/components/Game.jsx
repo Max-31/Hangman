@@ -255,13 +255,16 @@ const Game = () => {
         <div className="attempts">
           <h5>ATTEMPTS LEFT: {attempt}</h5>
         </div>
-        {
+        <div className="attempts">
+          <h5>Author: {contributor}</h5>
+        </div>
+        {/* {
           (contributor !== 'Computer') && (
             <div className="attempts">
               <h5>Word Contributed by: {contributor}</h5>
             </div>
           )
-        }
+        } */}
       </div>
 
       {/* Flex container for Hangman and Input side by side */}

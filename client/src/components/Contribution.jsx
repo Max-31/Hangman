@@ -149,9 +149,9 @@ const Contribution = () => {
         userID,
         contributionType: type,
         // Ensure we send uppercase to backend as per previous logic
-        word: data.word.toUpperCase(), 
+        word: data.word.toLowerCase(), 
         linkedGenre: type === "word" ? data.linkedGenre : undefined,
-        newGenre: type === "genre" ? data.newGenre?.toUpperCase() : undefined,
+        newGenre: type === "genre" ? data.newGenre?.toLowerCase() : undefined,
       };
 
       setLoading(true);
@@ -501,13 +501,13 @@ const Contribution = () => {
                             </div>
                           </div>
                         </div>
-                        <h3 className="history-word">{req.word}</h3>
+                        <h3 className="history-word">{req.word.toUpperCase()}</h3>
                         <p className="history-genre">
                           Genre:{" "}
                           <span className="genre-highlight">
                             {req.contributionType === "genre"
-                              ? req.newGenre
-                              : req.linkedGenre?.name}
+                              ? req.newGenre.toUpperCase()
+                              : req.linkedGenre?.name.toUpperCase()}
                           </span>
                         </p>
                       </div>

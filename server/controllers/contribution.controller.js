@@ -14,6 +14,8 @@ const addRequest= async(req, res)=>{
             return res.status(400).json({ message: "Missing required fields" });
         }
 
+        // const cleanWord = word.trim().toLowerCase();
+
         if(contributionType === 'genre'){
             if(!newGenre){
                 return res.status(400).json({ message: "New Game Name is required for Genre contributions." })
@@ -50,7 +52,7 @@ const addRequest= async(req, res)=>{
             }
 
             const existingWord = await Word.findOne({
-                word: word,
+                word: word.trim().toLowerCase(),
                 genre: linkedGenre
             })
 
@@ -67,7 +69,7 @@ const addRequest= async(req, res)=>{
             contributionType,
             newGenre: contributionType ==='genre' ? newGenre : undefined,
             linkedGenre: contributionType === 'word' ? linkedGenre : undefined,
-            word
+            word: word.trim().toLowerCase()
         })
 
         await newContrib.save();
@@ -281,7 +283,7 @@ const reviewRequest = async(req, res) => {
                 }
 
                 const existingWord = await Word.findOne({
-                    word: contribution.word,
+                    word: contribution.word.trim().toLowerCase(),
                     genre: contribution.linkedGenre
                 }).session(session)
 
@@ -296,10 +298,10 @@ const reviewRequest = async(req, res) => {
                     return res.status(409).json({ message: "Word already exists in this genre." });
                 }
 
-                const { wordMap, wordPos } = generateWordData(contribution.word);
+                const { wordMap, wordPos } = generateWordData(contribution.word.trim().toLowerCase());
 
                 const newWordEntry = new Word({
-                    word: contribution.word,
+                    word: contribution.word.trim().toLowerCase(),
                     genre: contribution.linkedGenre,
                     contributor: contribution.userID,
                     wordMap,
@@ -312,7 +314,7 @@ const reviewRequest = async(req, res) => {
             else if(contribution.contributionType === 'genre'){
                 
                 const existingGenre = await Genre.findOne({
-                    name: { $regex: new RegExp(`^${contribution.newGenre}$`, 'i') }
+                    name: { $regex: new RegExp(`^${contribution.newGenre.trim().toUpperCase()}$`, 'i') }
                 }).session(session)
                 // ^ -> matches start of string
                 // $ -> matches end of string 
@@ -331,14 +333,14 @@ const reviewRequest = async(req, res) => {
                 }
 
                 const newGenreEntry = new Genre({
-                    name: contribution.newGenre
+                    name: contribution.newGenre.trim().toUpperCase()
                 })
                 const savedGenre = await newGenreEntry.save({session});
 
-                const { wordMap, wordPos } = generateWordData(contribution.word);
+                const { wordMap, wordPos } = generateWordData(contribution.word.trim().toLowerCase());
 
                 const newWordEntry = new Word({
-                    word: contribution.word,
+                    word: contribution.word.trim().toLowerCase(),
                     genre: savedGenre._id,
                     contributor: contribution.userID,
                     wordMap,

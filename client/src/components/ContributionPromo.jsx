@@ -59,9 +59,10 @@ const ContributionPromo = (props) => {
 
           {/* Visual Simulation of the Game UI */}
           <div className="mock-game-ui">
-            <div className="mock-word">P L A N E T</div>
+            {/* <div className="mock-word">P L A N E T</div> */}
+            <div className="mock-word">U R A N U S</div>
             <div className="mock-credit">
-              <span className="credit-label">Word Contributed By:</span>
+              <span className="credit-label">Author:</span>
               <span className="credit-name">
                  <FaUserAstronaut className="inline-icon" /> You?
               </span>

@@ -3,6 +3,7 @@
 An interactive, full-stack implementation of the classic **Hangman** game built using **Node.js**, **Express** and **MongoDB**. This project has evolved into a comprehensive gaming ecosystem featuring a **Player App**, a dedicated **Admin Panel** and a **Community Contribution System**.
 
 This project goes beyond the basic game logic. It mimics a real-world production application with **robust session management**, **transactional emails (Brevo)**, **role-based access control**, **attempt tracking**, **letter and word validation**, a **high-score system** and a **responsive UI** with custom animations.
+
 ---
 
 ## 🚀 Key Features

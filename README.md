@@ -1,4 +1,4 @@
-# 🎯 [Hangman Game – MERN-Stack Web App](https://hangman-0ci9.onrender.com/)
+# 🎯 [Hangman Ecosystem – MERN-Stack Gaming Platform](https://hangman-c0h7.onrender.com)
 
 An interactive, full-stack implementation of the classic **Hangman** game built using **Node.js**, **Express** and **MongoDB**. This project has evolved into a comprehensive gaming ecosystem featuring a **Player App**, a dedicated **Admin Panel** and a **Community Contribution System**.
 

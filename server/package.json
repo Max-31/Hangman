@@ -13,6 +13,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@getbrevo/brevo": "^3.0.1",
     "axios": "^1.8.4",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.7",
@@ -22,7 +23,6 @@
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^8.13.2",
-    "nodemailer": "^8.0.1",
     "random-words": "^2.0.1"
   },
   "devDependencies": {

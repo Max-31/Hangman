@@ -14,23 +14,6 @@ const addRequest= async(req, res)=>{
             return res.status(400).json({ message: "Missing required fields" });
         }
 
-        // const existingWord = await Word.findOne({
-        //     word: word
-        // }).populate('genre');
-
-        // if(existingWord){
-        //     // contribution type word = adding word in existing genre -> so linkedGenre ache
-        //     // contribution type genre = adding word in new genre -> so linkedGenre = undefined & newGenre = string
-        //     console.log(existingWord.genre);
-            
-        //     if(contributionType === 'word' && linkedGenre === existingWord.genre._id){
-        //         return res.status(409).json({ message: `This Word already exists in This Genre.` });
-        //     }
-        //     else{
-        //         return res.status(409).json({ message: `This Word already exists in ${existingWord.genre.name}.` });
-        //     }
-        // }   
-
         if(contributionType === 'genre'){
             if(!newGenre){
                 return res.status(400).json({ message: "New Game Name is required for Genre contributions." })
@@ -144,18 +127,13 @@ const addRequest= async(req, res)=>{
                 </div>
             </div>
         `;
-        // const emailBody = `
-        //     <h3>New Contribution Request Received</h3>
-        //     <p><strong>Contributor ID:</strong> ${userID}</p>    
-        //     <p><strong>Contributor Name:</strong> ${contributorData.userName}</p>    
-        //     <p><strong>Type:</strong> ${contributionType.toUpperCase()}</p>    
-        //     <p><strong>Word:</strong> ${word}</p>    
-        //     <p><strong>Genre:</strong> ${genreName}</p> 
-        //     <br/>
-        //     <p>Please Login to the <a href= "${process.env.ADMIN_URL}">Admin Panel</a> to review.</p>   
-        // `;
-        
-        sendEmail(emailSubject, emailBody);
+
+        // sendEmail(emailSubject, emailBody);
+        sendEmail({
+            to: process.env.ADMIN_EMAIL,
+            subject: emailSubject,
+            htmlContent: emailBody
+        });
 
         res.status(201).json({ message: "Contribution Submitted Successfully!", request: newContrib });
 

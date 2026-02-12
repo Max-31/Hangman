@@ -1,9 +1,8 @@
 # 🎯 [Hangman Game – MERN-Stack Web App](https://hangman-0ci9.onrender.com/)
 
-An interactive, full-stack implementation of the classic **Hangman** game built using **Node.js**, **Express**, and **MongoDB**. This project has evolved into a comprehensive gaming ecosystem featuring a **Player App**, a dedicated **Admin Panel**, and a **Community Contribution System**.
+An interactive, full-stack implementation of the classic **Hangman** game built using **Node.js**, **Express** and **MongoDB**. This project has evolved into a comprehensive gaming ecosystem featuring a **Player App**, a dedicated **Admin Panel** and a **Community Contribution System**.
 
-It mimics a real-world production application with **robust session management**, **transactional emails (Brevo)**, **role-based access control**, and a **responsive UI** with custom animations.
-
+This project goes beyond the basic game logic. It mimics a real-world production application with **robust session management**, **transactional emails (Brevo)**, **role-based access control**, **attempt tracking**, **letter and word validation**, a **high-score system** and a **responsive UI** with custom animations.
 ---
 
 ## 🚀 Key Features
@@ -15,8 +14,8 @@ It mimics a real-world production application with **robust session management**
 * 📉 **Attempt Reduction & Game Over Logic**: Includes precise logic to deduct attempts and gracefully end the game when conditions are met.
 * 🏆 **High Score System**: Automatic tracking of player records and leaderboards, ideal for adding competitive gameplay
 * 📉 **Visual Health Tracking**: Classic 6-step Hangman progression (Head → Body → Limbs).
-* 📡 **REST API Design**: Well-defined API routes to create a game, submit guesses (letter/word), and manage game progression, easily connected to any frontend or mobile client.
-* 🛡️ **Error-Handling**: Includes comprehensive input validation, response standardization, and error handling to ensure a consistent user experience.
+* 📡 **REST API Design**: Well-defined API routes to create a game, submit guesses (letter/word) and manage game progression, easily connected to any frontend or mobile client.
+* 🛡️ **Error-Handling**: Includes comprehensive input validation, response standardization and error handling to ensure a consistent user experience.
 
 
 ### 🤝 Contribution Ecosystem (New)
@@ -35,7 +34,7 @@ It mimics a real-world production application with **robust session management**
 ### 🎨 Enhanced UI/UX
 
 * ⏳ **Custom Loader**: Stylish, physics-based "Swinging Hangman" loader with artificial delay handling for smooth transitions.
-* ✨ **Interactive Feedback**: Shake animations on errors, toast notifications for actions, and uppercase-enforced inputs.
+* ✨ **Interactive Feedback**: Shake animations on errors, toast notifications for actions and uppercase-enforced inputs.
 * 📱 **Fully Responsive**: Optimized layouts for Mobile and Desktop across both Player and Admin apps.
 
 ---

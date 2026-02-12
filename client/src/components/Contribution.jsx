@@ -182,7 +182,9 @@ const Contribution = () => {
   };
 
   const handlePageRefresh = () => {
-    window.location.reload();
+    // window.location.reload();
+    fetchHistory();
+    window.dispatchEvent(new Event("triggerNavbarRefresh"));
   };
 
   if (loading) {

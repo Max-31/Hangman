@@ -53,6 +53,17 @@ const Navbar = () => {
     ()=>{
       fetchNotifications();
 
+      const handleRefreshSignal = () => {
+        console.log("Navbar received refresh signal...");
+        fetchNotifications(); 
+      };
+
+      window.addEventListener("triggerNavbarRefresh", handleRefreshSignal);
+
+      return () => {
+        window.removeEventListener("triggerNavbarRefresh", handleRefreshSignal);
+      };
+
       // const interval = setInterval(fetchNotifications, 60000);
       // const interval = setInterval(
       //   ()=>{

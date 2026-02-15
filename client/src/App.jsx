@@ -10,6 +10,7 @@ import Profile from './components/Profile'
 import Contribution from './components/Contribution'
 import ContributionPromo from './components/ContributionPromo'
 import Loader from './components/Loader'
+import ForgotPassword from './components/ForgotPassword'
 import { Toaster } from 'react-hot-toast'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import axios from 'axios'
@@ -99,17 +100,24 @@ const router= createBrowserRouter(
       </div>
     },
     {
-      path:'/testing',
+      path: '/forgot-password',
       element: 
       <div>
-        <Loader />
-        {/* <Win /> */}
-        {/* <Lost word={"music"}/> */}
-        {/* <Input /> */}
-        {/* <Hangman attempts={0}/> */}
-        {/* <Deadman /> */}
+        <ForgotPassword />
       </div>
-    }
+    },
+    // {
+    //   path:'/testing',
+    //   element: 
+    //   <div>
+    //     <Loader />
+    //     {/* <Win /> */}
+    //     {/* <Lost word={"music"}/> */}
+    //     {/* <Input /> */}
+    //     {/* <Hangman attempts={0}/> */}
+    //     {/* <Deadman /> */}
+    //   </div>
+    // }
   ]
 )
 

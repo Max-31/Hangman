@@ -53,6 +53,26 @@
   box-shadow: 0 0 0 2px #3b82f6; /* focus:ring-blue-500 */
 }
 
+/* --- NEW FORGOT PASSWORD STYLES --- */
+.forgotPasswordContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem; /* mb-4 */
+}
+
+.forgotPasswordLink {
+  font-size: 0.75rem; /* text-xs */
+  color: rgba(244, 226, 133, 0.7); /* text-gold-soft/70 */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.forgotPasswordLink:hover {
+  color: #FFD700; /* text-gold-vibrant */
+  text-decoration: underline;
+}
+/* ---------------------------------- */
+
 .btn {
   margin-bottom: 1rem;
 }

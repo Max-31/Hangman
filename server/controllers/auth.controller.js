@@ -1,6 +1,7 @@
 const bcrypt= require('bcrypt');
 const jwt= require('jsonwebtoken');
 const Player= require('../db/models/player.model');
+const sendEmail = require('../utils/sendEmail');
 
 const signUp= async(req, res)=>{
     try{
@@ -104,4 +105,116 @@ const logout = async(req, res)=>{
     }
 }
 
-module.exports= {login, signUp, logout};
+const forgotPassword = async(req, res) => {
+    try{
+        const { email } = req.body;
+
+        if(!email) return res.status(400).json({ message: "Email is required!" });
+
+        const player = await Player.findOne({ email: email.toLowerCase().trim() });
+
+        if(!player) {
+            return res.status(404).json({ message: "This Email is NOT Verified and Linked with the Username." });
+
+        }
+        const otp = Math.floor(100000 + Math.random()*900000).toString();
+        const otpExpiry = new Date(Date.now() + 10*60*1000);
+    
+        player.otp = otp;
+        player.otpExpiry= otpExpiry;
+        await player.save();
+
+        const emailBody = `
+            <div style="background-color: #020126; padding: 40px 20px; font-family: 'Arial', sans-serif; color: #ffffff;">
+                <div style="max-width: 600px; margin: 0 auto; background-color: #0A0140; padding: 30px; border-radius: 12px; border: 1px solid #150259; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+                    
+                    <h2 style="color: #6863F2; margin-top: 0; text-align: center; border-bottom: 2px solid #4630D9; padding-bottom: 20px;">
+                        Password Reset Request
+                    </h2>
+
+                    <div style="margin: 30px 0; text-align: center;">
+                        <p style="margin: 12px 0; font-size: 16px; color: #a0a0a0;">
+                            You recently requested to reset your password for your Hangman account. Use the OTP below to complete the process.
+                        </p>
+                        
+                        <div style="margin: 40px 0;">
+                            <span style="background-color: #150259; color: #ffffff; padding: 15px 30px; border-radius: 8px; font-size: 32px; font-weight: bold; letter-spacing: 5px; border: 1px solid #6863F2; box-shadow: 0 0 15px rgba(104, 99, 242, 0.3);">
+                                ${otp}
+                            </span>
+                        </div>
+
+                        <p style="margin: 12px 0; font-size: 14px; color: #FFD700;">
+                            ⚠️ This code expires in 10 minutes.
+                        </p>
+                        
+                        <p style="margin: 12px 0; font-size: 14px; color: #a0a0a0;">
+                            If you did not request a password reset, please ignore this email or contact support if you have concerns.
+                        </p>
+                    </div>
+
+                    <hr style="border: 0; border-top: 1px solid #150259; margin: 30px 0;">
+
+                    <p style="text-align: center; color: #464660; font-size: 12px; margin-top: 20px;">
+                        Hangman Game Security System
+                    </p>
+                </div>
+            </div>
+        `;
+
+        await sendEmail ({
+            to: player.email,
+            subject: "Hangman Password Reset OTP",
+            htmlContent: emailBody
+        });
+
+        res.status(200).json({ message: "OTP sent to your email!" });
+    }
+    catch(err){
+        console.error(err);
+        res.status(500).json({ message: "Server Error" });
+    }
+}
+
+const resetPassword = async(req,res)=>{
+    try{
+        const { email, otp, newPassword }= req.body;
+        if(!email || !otp || !newPassword){
+            return res.status(400).json({ message: "All fields are Required" });
+        }
+
+        const player = await Player.findOne({ email: email.toLowerCase().trim() });
+        if(!player){
+            return res.status(404).json({ message: "Player Not Found!" });
+        }
+
+        if(player.otp !== otp){
+            return res.status(400).json({ message: "Invalid OTP" });
+        }
+
+        if(new Date() > player.otpExpiry){
+            return res.status(400).json({ message: "OTP has expired" });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+        player.password = hashedPassword;
+        player.otp = undefined;
+        player.otpExpiry = undefined;
+        await player.save();
+
+        res.status(200).json({ message: "Password reset Successfu! You can login now." });
+    }
+    catch(err){
+        return res.status(500).json({ message: "Server Error" });
+    }
+}
+
+
+module.exports= {
+    login, 
+    signUp, 
+    logout,
+    forgotPassword,
+    resetPassword
+};

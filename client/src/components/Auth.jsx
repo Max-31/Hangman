@@ -124,6 +124,12 @@ const Auth = () => {
             />
           </div>
 
+          <div className="forgotPasswordContainer">
+            <Link to="/forgot-password" className="forgotPasswordLink">
+              Forgot Password?
+            </Link>
+          </div>
+
           {/* Submit Button */}
           <div className="btn">
             <button type="submit" className="loginBtn">

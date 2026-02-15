@@ -19,12 +19,13 @@ import {
 import "./Contribution.css";
 import Loader from "./Loader";
 
+
 const Contribution = () => {
   const navigate= useNavigate();
   const url = import.meta.env.VITE_API_URL;
   const userID = localStorage.getItem("userID");
 
-  // --- REACT HOOK FORM SETUP ---
+  // REACT HOOK FORM SETUP
   const {
     register,
     handleSubmit,
@@ -46,7 +47,14 @@ const Contribution = () => {
   const [myRequests, setMyRequests] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // --- FETCH HELPERS ---
+  //email
+  const [isVerified, setIsVerified] = useState(false); 
+  const [emailInput, setEmailInput] = useState("");
+  const [otpInput, setOtpInput] = useState("");
+  const [otpStep, setOtpStep] = useState(0); 
+  // 0: Hidden/Verified, 1: Enter Email, 2: Enter OTP
+
+  // FETCH HELPERS
   const fetchGenres = async () => {
     setLoading(true);
     try {
@@ -94,9 +102,25 @@ const Contribution = () => {
     }
   }
 
+  const checkVerificationStatus = async () => {
+    try {
+      if (!userID) return;
+      const res = await axios.get(`${url}/play/profile/${userID}`); 
+      
+      if (res.data.playerData?.isEmailVerified) {
+        setIsVerified(true);
+      }
+
+    } catch (err) {
+      console.log("Failed to fetch profile status");
+      console.log(err);
+    }
+  };
+
   useEffect(
     ()=>{
       checkAuth();
+      checkVerificationStatus();
     },
     []
   )
@@ -133,13 +157,13 @@ const Contribution = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // --- FILTER LOGIC ---
+  // FILTER LOGIC
   const filteredRequests = myRequests.filter((req) => {
     if (statusFilter === "ALL") return true;
     return req.status === statusFilter;
   });
 
-  // --- SUBMIT HANDLER (React Hook Form) ---
+  // SUBMIT HANDLER (React Hook Form)
   const onSubmit = async (data) => {
     if (!userID) return toast.error("Please login first!");
 
@@ -260,7 +284,85 @@ const Contribution = () => {
                 </label>
               </div>
 
-              {/* --- REACT HOOK FORM START --- */}
+              {/* EMAIL VERIFICATION BANNER */}
+              {!isVerified && (
+                <div className="email-verification-banner">
+                  <div className="ev-flex-container">
+                    <FaLightbulb className="ev-icon" />
+                    <div className="ev-content">
+                      <h4 className="ev-title">Want to get notified?</h4>
+                      <p className="ev-description">
+                        Register and verify your email to receive live updates when your word is approved or denied!
+                      </p>
+
+                      {/* Step 1: Ask for Email */}
+                      {otpStep === 0 && (
+                        <button 
+                          onClick={() => setOtpStep(1)}
+                          className="ev-btn-enable"
+                        >
+                          Enable Notifications
+                        </button>
+                      )}
+
+                      {/* Step 2: Enter Email & Send OTP */}
+                      {otpStep === 1 && (
+                        <div className="ev-input-group">
+                          <input 
+                            type="email" 
+                            placeholder="Enter your email" 
+                            className="form-input ev-input"
+                            value={emailInput}
+                            onChange={(e) => setEmailInput(e.target.value)}
+                          />
+                          <button 
+                            onClick={async () => {
+                              if(!emailInput) return toast.error("Enter an email");
+                              try {
+                                await axios.post(`${url}/play/send-otp`, { userID, email: emailInput });
+                                toast.success("OTP Sent!");
+                                setOtpStep(2);
+                              } catch(err) { toast.error(err.response?.data?.message || "Error"); }
+                            }}
+                            className="ev-btn-primary"
+                          >
+                            Send OTP
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Step 3: Enter OTP */}
+                      {otpStep === 2 && (
+                        <div className="ev-input-group">
+                          <input 
+                            type="text" 
+                            placeholder="Enter 6-digit OTP" 
+                            className="form-input ev-input ev-input-otp"
+                            maxLength={6}
+                            value={otpInput}
+                            onChange={(e) => setOtpInput(e.target.value)}
+                          />
+                          <button 
+                            onClick={async () => {
+                              if(otpInput.length !== 6) return toast.error("Enter 6 digits");
+                              try {
+                                await axios.post(`${url}/play/verify-otp`, { userID, otp: otpInput });
+                                toast.success("Email Verified!");
+                                setIsVerified(true);
+                                setOtpStep(0);
+                              } catch(err) { toast.error(err.response?.data?.message || "Invalid OTP"); }
+                            }}
+                            className="ev-btn-success"
+                          >
+                            Verify
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <form onSubmit={handleSubmit(onSubmit)}>
                 {type === "word" ? (
                   <div className="form-group">
@@ -350,7 +452,6 @@ const Contribution = () => {
                   )}
                 </button>
               </form>
-              {/* --- REACT HOOK FORM END --- */}
 
               <div className="guidelines-box">
                 <h3 className="guidelines-title">
@@ -389,7 +490,7 @@ const Contribution = () => {
           {/* === TAB: HISTORY === */}
           {activeTab === "HISTORY" && (
             <div className="history-container">
-              {/* --- RESPONSIVE FILTER BAR --- */}
+              {/* RESPONSIVE FILTER BAR */}
               <div className="filter-wrapper">
                 {/* Desktop: Row of Buttons */}
                 <div className="desktop-filters">

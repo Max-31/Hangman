@@ -357,6 +357,67 @@ const reviewRequest = async(req, res) => {
 
             await session.commitTransaction(); // similarly here also I'm doing Save Everything at Once
             session.endSession();
+
+            const player = await Player.findById(contribution.userID);
+            if(player && player.isEmailVerified && player.email){
+                const statusColor = (action === 'APPROVED') ? ('#4CAF50') : ('#F44336');
+                const emailSubject = `CONGRATS! Your Hangman Contribution is ${action}!`;
+                const emailBody = `
+                    <div style="background-color: #020126; padding: 40px 20px; font-family: 'Arial', sans-serif; color: #ffffff;">
+                        <div style="max-width: 600px; margin: 0 auto; background-color: #0A0140; padding: 30px; border-radius: 12px; border: 1px solid #150259; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+                            
+                            <h2 style="color: ${statusColor}; margin-top: 0; text-align: center; border-bottom: 2px solid #150259; padding-bottom: 20px;">
+                                Contribution ${action}
+                            </h2>
+
+                            <div style="margin: 30px 0;">
+                                <p style="margin: 12px 0; font-size: 16px; color: #ffffff; line-height: 1.5;">
+                                    Hello <strong style="color: #6863F2;">${player.userName}</strong>,
+                                </p>
+                                <p style="margin: 12px 0; font-size: 16px; color: #ffffff; line-height: 1.5;">
+                                    Your recent contribution for the word <strong style="color: #ffffff; font-size: 18px; letter-spacing: 1px;">"${contribution.word.toUpperCase()}"</strong> has been reviewed.
+                                </p>
+                                
+                                <hr style="border: 0; border-top: 1px solid #150259; margin: 25px 0;">
+
+                                <p style="margin: 12px 0; font-size: 16px;">
+                                    <strong style="color: #6863F2;">Status:</strong> 
+                                    <span style="background-color: #150259; color: ${statusColor}; padding: 4px 10px; border-radius: 4px; font-size: 14px; font-weight: bold; letter-spacing: 1px; margin-left: 8px;">
+                                        ${action.toUpperCase()}
+                                    </span>
+                                </p>
+
+                                ${adminComment ? `
+                                <div style="margin-top: 25px; padding: 15px 20px; background-color: #020126; border-left: 4px solid ${statusColor}; border-radius: 4px;">
+                                    <p style="margin: 0; font-size: 14px;">
+                                        <strong style="color: #6863F2;">Admin Note:</strong><br><br>
+                                        <em style="color: #e0e0e0; line-height: 1.6;">"${adminComment}"</em>
+                                    </p>
+                                </div>
+                                ` : ''}
+                            </div>
+
+                            <div style="text-align: center; margin-top: 40px; margin-bottom: 20px;">
+                                <a href="https://hangman-0ci9.onrender.com" style="background-color: #4630D9; color: #ffffff; padding: 14px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block; box-shadow: 0 4px 15px rgba(70, 48, 217, 0.4);">
+                                    Play Hangman Now
+                                </a>
+                            </div>
+
+                            <p style="text-align: center; color: #464660; font-size: 12px; margin-top: 40px;">
+                                Hangman Game Automation System
+                            </p>
+                        </div>
+                    </div>
+                `;
+
+                sendEmail({
+                    to: player.email,
+                    subject: emailSubject,
+                    htmlContent: emailBody
+                }).catch(err => console.error("Failed to send player notification from reviewRequest controller: ", err));
+                
+            }
+
             return res.status(201).json({ message: "Contribution Approved & Added to Game!", contribution })
         }
     }

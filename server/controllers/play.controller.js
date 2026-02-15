@@ -84,7 +84,7 @@ const profile= async(req, res)=>{
 
         // const playerData= await Player.findOne({userName}).select("userName wins guessingPower losses highScore");
         // now userName from Frontend sends player ID
-        const playerData = await Player.findById(userID).select("userName wins guessingPower losses highScore");
+        const playerData = await Player.findById(userID).select("userName wins guessingPower losses highScore isEmailVerified");
         // const playerContribution = await Contribution.find({userID: playerData._id, status: 'APPROVED'}).populate('linkedGenre', 'name').sort({ updatedAt: -1 });
         
         const playerContribution = await Word.find({contributor: playerData._id}).populate('genre')

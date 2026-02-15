@@ -2,11 +2,6 @@ const mongoose= require('mongoose');
 
 const playerSchema= new mongoose.Schema(
     {
-        // email: {
-        //     type: String,
-        //     required: [true, "Please Enter Email!"],
-        //     unique: [true, "Email Already Exists!"]
-        // },
         userName: {
             type: String,
             required: [true, "Please Enter UserName!"],
@@ -17,13 +12,11 @@ const playerSchema= new mongoose.Schema(
             type: String,
             required: [true, "Please Enter Password!"]
         },
-
         role: {
             type: String,
             enum: ['player', 'admin'],
             default: 'player'
         },
-
         guessingPower: {
             type: Number,
             default: 0
@@ -39,6 +32,22 @@ const playerSchema= new mongoose.Schema(
         losses: {
             type: Number,
             default: 0
+        },
+        email: {
+            type: String,
+            unique: true,
+            sparse: true,
+            lowercase: true
+        },
+        isEmailVerified: {
+            type: Boolean,
+            default: false
+        },
+        otp: {
+            type: String
+        },
+        otpExpiry: {
+            type: Date
         }
     },
     {

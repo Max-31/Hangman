@@ -24,7 +24,8 @@ This project goes beyond the basic game logic. It mimics a real-world production
 * 📝 **Community Suggestions**: Players can submit new **Words** or **Genres** via a dedicated form (powered by `React Hook Form` with strict validation).
 * 🚦 **Approval Workflow**: Submissions enter a "PENDING" queue for Admin review.
 * 🔔 **Real-Time Notifications**: Players receive in-app notification badges and updates when their requests are processed.
-* 📧 **Transactional Emails**: Automated email notifications will be sent to Admin(s) via **Brevo (formerly Sendinblue)** when the Players will add new contribution.
+* 📧 **Email Notifications**: Automated email notifications will be sent to Admin(s) when Players will add new Contribution request & to the Players when Admin(s) will approve/deny the requested contribution. The Email will be sent via **Brevo (formerly Sendinblue)**.
+* 📧 **Smart Notifications**: Automated email alerts via **Brevo (formerly Sendinblue)**. Admins are instantly notified of new contributions, while Players receive real-time status updates (Approved/Denied) after verifying their email via OTP.
 
 ### 🛡️ Admin Panel
 

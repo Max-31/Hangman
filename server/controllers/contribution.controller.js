@@ -109,11 +109,11 @@ const addRequest= async(req, res)=>{
                         </p>
                         <p style="margin: 12px 0; font-size: 18px;">
                             <strong style="color: #6863F2;">Word:</strong> 
-                            <strong style="color: #ffffff; font-size: 20px; letter-spacing: 1px;">${word}</strong>
+                            <strong style="color: #ffffff; font-size: 20px; letter-spacing: 1px;">${word.toUpperCase()}</strong>
                         </p>
                         <p style="margin: 12px 0; font-size: 16px;">
                             <strong style="color: #6863F2;">Genre:</strong> 
-                            <span style="color: #ffffff;">${genreName}</span>
+                            <span style="color: #ffffff;">${genreName.toUpperCase()}</span>
                         </p>
                     </div>
 

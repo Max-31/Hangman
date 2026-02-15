@@ -121,6 +121,7 @@ const Contribution = () => {
     ()=>{
       checkAuth();
       checkVerificationStatus();
+      handlePageRefresh();
     },
     []
   )

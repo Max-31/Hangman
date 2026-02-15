@@ -361,7 +361,8 @@ const reviewRequest = async(req, res) => {
             const player = await Player.findById(contribution.userID);
             if(player && player.isEmailVerified && player.email){
                 const statusColor = (action === 'APPROVED') ? ('#4CAF50') : ('#F44336');
-                const emailSubject = `CONGRATS! Your Hangman Contribution is ${action}!`;
+                // const emailSubject = `CONGRATS! Your Hangman Contribution is ${action}!`;
+                const emailSubject = (action === 'APPROVED') ? (`CONGRATS! Your Hangman Contribution is ${action}!`) : (`OOPS! Sorry, Your Hangman Contribution has been ${action}!`);
                 const emailBody = `
                     <div style="background-color: #020126; padding: 40px 20px; font-family: 'Arial', sans-serif; color: #ffffff;">
                         <div style="max-width: 600px; margin: 0 auto; background-color: #0A0140; padding: 30px; border-radius: 12px; border: 1px solid #150259; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">

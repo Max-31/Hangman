@@ -64,10 +64,11 @@ const Game = () => {
           navigate('/play');
           return;
         }
-
+        
         setGenre(gameInfo.genre);
         setAttempt(gameInfo.attemptLeft);
         setDisplayWord(gameInfo.hiddenWord);
+        setContributor(gameInfo.contributor);
         toast.success(gameInfo.message);
       }
     }

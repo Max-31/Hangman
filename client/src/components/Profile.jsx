@@ -3,7 +3,7 @@ import './Profile.css'
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { FaTrophy, FaGamepad, FaMedal, FaTimes, FaScroll } from 'react-icons/fa';
+import { FaTrophy, FaGamepad, FaMedal, FaTimes, FaScroll, FaCheckCircle } from 'react-icons/fa';
 import Loader from './Loader';
 
 const url= import.meta.env.VITE_API_URL
@@ -21,6 +21,7 @@ const Profile = () => {
   const [legacyWords, setLegacyWords] = useState([]);
 
   const [loading, setLoading]= useState(false);
+  const [isVerified, setIsVerified] = useState(false);
 
   const loadPlayerData= async()=>{
     setLoading(true);
@@ -44,6 +45,7 @@ const Profile = () => {
         setWins(playerData.wins ?? 0);
         setLosses(playerData.losses ?? 0);
         setHighScore(playerData.highScore ?? 0);
+        setIsVerified(playerData.isEmailVerified ?? false);
       }
 
       setLegacyWords(playerContribution ?? []);
@@ -86,6 +88,13 @@ const Profile = () => {
       <h2 className="profileHeading">Profile</h2>
 
       <div className="profileBox">
+        {isVerified && (
+          <div className="verified-badge-container">
+            <FaCheckCircle className="verified-icon" title="Verified Player" />
+            <span className="verified-text">Verified</span>
+          </div>
+        )}
+
         <div className="profileItem">
           <span className="label">Username:</span>
           {/* <span className="value">{userName}</span> */}

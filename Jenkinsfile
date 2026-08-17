@@ -86,7 +86,7 @@ pipeline {
 
                         ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no "$SSH_USER@34.45.15.61" "mkdir -p ${DEPLOY_DIR}"
 
-                        scp -i "$SSH_KEY" -o StrictHostKeyChecking=no server/docker-compose.yml "$SSH_USER@34.45.15.61:${DEPLOY_DIR}/docker-compose.yml"
+                        scp -i "$SSH_KEY" -o StrictHostKeyChecking=no server/docker-compose.yaml "$SSH_USER@34.45.15.61:${DEPLOY_DIR}/docker-compose.yaml"
 
                         ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no "$SSH_USER@34.45.15.61" "cat > ${DEPLOY_DIR}/.env" <<EOF
                         IMAGE_TAG=${IMAGE_TAG}

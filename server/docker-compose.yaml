@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+hangman-api:
+    image: ${DOCKER_IMAGE:-max3101/hangman-backend}:${IMAGE_TAG:-latest}
+    container_name: hangman-backend-prod
+    ports:
+    - "5000:5000"
+    env_file:
+    - .env
+    restart: unless-stopped

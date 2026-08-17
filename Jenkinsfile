@@ -8,7 +8,8 @@ pipeline {
         DB_NAME      = 'Hangman-Cluster'
         
         DOCKER_IMAGE = 'max3101/hangman-backend'
-        DEPLOY_DIR   = '/srv/mern-app'
+        // DEPLOY_DIR   = '/srv/mern-app'
+        DEPLOY_DIR = '/home/jenkins/hangman-production'
 
         IMAGE_TAG = "${BUILD_NUMBER}"
     }
